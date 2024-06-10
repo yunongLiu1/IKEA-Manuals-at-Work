@@ -115,64 +115,57 @@ N/A
 
 N/A
 
-### Any other comments?
 
 ## Collection process
 
-_\[T\]he answers to questions here may provide information that allow others to
-reconstruct the dataset without access to it._
-
 ### How was the data associated with each instance acquired?
 
-3D furniture models were collected from the IKEA-Manual dataset and associated assembly videos were collected from the IAW dataset. Segmentation masks, 6D part poses, step alignment, substep alignment are manually annotated.
+The IKEA Video Manuals dataset was created by identifying 36 IKEA objects from the IKEA-Manual dataset that have corresponding assembly videos in the IAW dataset. IKEA-Manual uses furniture names as identifiers, while IAW uses article numbers. To ensure correct correspondence, the unique IDs of the instruction manuals were matched.
 
-### What mechanisms or procedures were used to collect the data (e.g., hardware apparatus or sensor, manual human curation, software program, software API)?
+The selected IAW videos capture real-world assembly processes with diverse backgrounds, viewpoints, and performer variability. This real-world complexity aligns with the goal of enabling the learning of robust assembly processes.
 
-Detailed annotation procedures are described for annotating:
-- Temporal segmentation and part identities
-- Segmentation masks using an interactive tool powered by the SAM model
-- 2D-3D correspondences and 6D part poses using PnP, RANSAC and manual refinement
+The 3D models in the dataset were collected from existing datasets and online repositories as part of the IKEA-Manual dataset. These models are segmented into individual parts that match the assembly manuals, enabling fine-grained reasoning about part-level assembly sequences.
 
-### If the dataset is a sample from a larger set, what was the sampling strategy (e.g., deterministic, probabilistic with specific sampling probabilities)?
+The original assembly manuals were sourced from the official IKEA website and provide valuable ground truth information for evaluating the performance of assembly plan understanding algorithms.
 
-<span style="color:red">The paper mentions that manual annotations were performed but does not provide details on who the annotators were or how they were compensated.</span>
+### What mechanisms or procedures were used to collect the data?
 
-### Who was involved in the data collection process (e.g., students, crowdworkers, contractors) and how were they compensated (e.g., how much were crowdworkers paid)?
+The data was collected using the following mechanisms:
+- IKEA objects were identified from the IKEA-Manual dataset and matched with corresponding assembly videos from the IAW dataset using the unique IDs of the instruction manuals.
+- The 3D models were collected from existing datasets and online repositories as part of the IKEA-Manual dataset.
+- The original assembly manuals were sourced from the official IKEA website.
+- Detailed annotation procedures were used for annotating:
+  - Temporal segmentation and part identities
+  - Segmentation masks using an interactive tool powered by the SAM model
+  - 2D-3D correspondences and 6D part poses using PnP, RANSAC and manual refinement
+  - Temporal step and substep alignments
+
+### If the dataset is a sample from a larger set, what was the sampling strategy?
+
+The dataset is a curated sample of IKEA furniture assembly instances, selected based on the availability of corresponding assembly videos in the IAW dataset. The sampling strategy was deterministic, matching the unique IDs of the instruction manuals to ensure correct correspondence between the IKEA-Manual and IAW datasets.
+
+### Who was involved in the data collection process and how were they compensated?
+
+The authors of the paper were responsible for collecting the source data (videos, 3D models, and manuals), developing the annotation interface, and writing the annotation guidelines. 
+
+<span style="color:red"> For the annotation process, the authors employed a team of annotators. The annotators were compensated for their work at a rate above the minimum wage. </span>
 
 ### Over what timeframe was the data collected?
 
-<span style="color:red">The timeframe of data collection is not specified.</span>
+The source data (videos, 3D models, and manuals) was collected over a period of 3 days in June 2023. The annotation process lasted until June 2024.
 
-### Were any ethical review processes conducted (e.g., by an institutional review board)?
 
-<span style="color:red">The paper does not mention any ethical review processes.</span>
+### Were any ethical review processes conducted?
+
+N/A
 
 ### Does the dataset relate to people?
 
 No, the dataset does not relate to people directly. The remaining questions in this section are not applicable.
-### Did you collect the data from the individuals in question directly, or obtain it via third parties or other sources (e.g., websites)?
-
-### Were the individuals in question notified about the data collection?
-N/A
-
-### Did the individuals in question consent to the collection and use of their data?
-N/A
-
-### If consent was obtained, were the consenting individuals provided with a mechanism to revoke their consent in the future or for certain uses?
-N/A
-
-### Has an analysis of the potential impact of the dataset and its use on data subjects (e.g., a data protection impact analysis) been conducted?
-N/A
-
-### Any other comments?
 
 ## Preprocessing/cleaning/labeling
 
-_The questions in this section are intended to provide dataset consumers with the information
-they need to determine whether the “raw” data has been processed in ways that are compatible
-with their chosen tasks. For example, text that has been converted into a “bag-of-words” is
-not suitable for tasks involving word order._
-### Was any preprocessing/cleaning/labeling of the data done (e.g., discretization or bucketing, tokenization, part-of-speech tagging, SIFT feature extraction, removal of instances, processing of missing values)?
+### Was any preprocessing/cleaning/labeling of the data done?
 
 Yes, the data was extensively annotated with:
 - Temporal step alignments
@@ -182,13 +175,13 @@ Yes, the data was extensively annotated with:
 - Part 6D poses 
 - Estimated camera parameters
 
-### Was the “raw” data saved in addition to the preprocessed/cleaned/labeled data (e.g., to support unanticipated future uses)?
+### Was the "raw" data saved in addition to the preprocessed/cleaned/labeled data?
 
 The raw assembly videos and manuals are retained along with the annotations.
 
 ### Is the software used to preprocess/clean/label the instances available?
 
-<span style="color:red">The paper describes the annotation tools used (e.g. based on SAM for segmentation) but does not provide the code.</span>
+Yes, we will release code for the interfaces we used for annotation upon acceptance.
 
 ### Any other comments?
 
@@ -202,23 +195,37 @@ Yes, the paper demonstrates the use of the dataset for assembly plan generation,
 
 ### Is there a repository that links to any or all papers or systems that use the dataset?
 
-<span style="color:red">The paper does not mention such a repository.</span>
+Our paper is under review, but the data repository will provide links to papers that use the dataset in the future.
 
 ### What (other) tasks could the dataset be used for?
+<span style="color:red"> 
+The dataset could potentially be used for tasks such as:</span>
 
-The dataset could potentially be used for tasks such as:
-- Grounding natural language instructions to videos
-- Action recognition and localization
 - 3D object tracking in videos
 - Embodied AI for assembly
+- Grounding natural language instructions to videos
+- Action recognition and localization
+</span>
+
+## Uses
 
 ### Is there anything about the composition of the dataset or the way it was collected and preprocessed/cleaned/labeled that might impact future uses?
 
-The dataset involves IKEA's intellectual property. Commercial use may be restricted without permission.
+The dataset has several potential biases and limitations, including:
+1. Limited object diversity (IKEA furniture only)
+2. Annotator subjectivity in labeling
+3. Intellectual property restrictions for commercial use
+4. Limited contextual information beyond furniture assembly
+
+Future users should consider these factors when using the dataset and acknowledge them in their work.
 
 ### Are there tasks for which the dataset should not be used?
 
-The dataset should not be used for building commercial furniture assembly systems without permission from IKEA, as the data involves their intellectual property.
+The dataset should not be used for training models that aim to generalize to diverse objects or settings, as it is primarily intended as a test set. 
+
+### Any other comments?
+
+None.
 
 ### Any other comments?
 
@@ -226,64 +233,62 @@ None.
 
 ## Distribution
 
-### Will the dataset be distributed to third parties outside of the entity (e.g., company, institution, organization) on behalf of which the dataset was created? 
+### Will the dataset be distributed to third parties outside of the entity on behalf of which the dataset was created?
 
-<span style="color:red">The paper does not specify any plans for distribution.</span>
+The dataset will be freely available for public download.
 
-### How will the dataset will be distributed (e.g., tarball on website, API, GitHub)?
+### How will the dataset will be distributed?
 
-<span style="color:red">The distribution mechanism is not specified.</span>
+The dataset is uploaded in a simple zip format on GitHub: https://github.com/yunongLiu1/IKEA-Manuals-at-Work
 
 ### When will the dataset be distributed?
 
-<span style="color:red">The paper does not indicate any timeline for dataset release.</span>
+The dataset is already publicly available for download.
 
 ### Will the dataset be distributed under a copyright or other intellectual property (IP) license, and/or under applicable terms of use (ToU)?
 
-<span style="color:red">The licensing and terms of use are not specified in the paper.</span>
+The dataset is released under the CC-BY-4.0 license.
 
 ### Have any third parties imposed IP-based or other restrictions on the data associated with the instances?
 
-<span style="color:red">The dataset contains IKEA's furniture designs and assembly instructions, which are likely protected intellectual property. However, specific restrictions are not discussed in the paper.</span>
+<span style="color:red"> The dataset contains IKEA's furniture designs and assembly instructions, which are likely protected intellectual property.</span>
 
 ### Do any export controls or other regulatory restrictions apply to the dataset or to individual instances?
 
-<span style="color:red">The paper does not mention any export controls or regulatory restrictions.</span>
+No.
 
 ### Any other comments?
 
-None.
 
 ## Maintenance
 
 ### Who is supporting/hosting/maintaining the dataset?
 
-<span style="color:red">Maintenance details are not provided.</span>
+The dataset is hosted on GitHub and will be maintained by the authors. The repository can be found at: https://github.com/yunongLiu1/IKEA-Manuals-at-Work
 
-### How can the owner/curator/manager of the dataset be contacted (e.g., email address)?
+### How can the owner/curator/manager of the dataset be contacted?
 
-<span style="color:red">Contact information for the dataset owners is not provided in the paper.</span>
+The owners of the dataset can be contacted through the GitHub repository's issue tracker or by directly reaching out to the authors via the contact information provided in the repository.
 
 ### Is there an erratum?
 
-<span style="color:red">No erratum is mentioned in the paper.</span>
+Any erratum or updates to the dataset will be made available through the GitHub repository. Users should refer to the repository's README and release notes for any corrections or changes.
 
-### Will the dataset be updated (e.g., to correct labeling errors, add new instances, delete instances)?
+### Will the dataset be updated?
 
-<span style="color:red">Plans for future dataset updates are not indicated.</span>
+Yes, in the event that errors are found, the dataset will be uploaded as a new version at the same location.
 
-### If the dataset relates to people, are there applicable limits on the retention of the data associated with the instances (e.g., were individuals in question told that their data would be retained for a fixed period of time and then deleted)?
+### If the dataset relates to people, are there applicable limits on the retention of the data associated with the instances?
 
-
-The dataset does not relate to people directly, so this question is not applicable.
+N/A
 
 ### Will older versions of the dataset continue to be supported/hosted/maintained?
 
-<span style="color:red">Information about version maintenance is not provided as the dataset has not been released yet.</span>
+Older versions of the dataset will be archived on the GitHub repository. 
 
 ### If others want to extend/augment/build on/contribute to the dataset, is there a mechanism for them to do so?
 
-<span style="color:red">The paper does not describe any mechanism for external contributions to the dataset.</span>
+Researchers interested in extending or contributing to the dataset can submit pull requests to the GitHub repository. The authors will review and potentially integrate these contributions. Guidelines for contributing will be provided in the repository's documentation.
 
 ### Any other comments?
 
