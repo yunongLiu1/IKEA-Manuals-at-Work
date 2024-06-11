@@ -98,7 +98,7 @@ No, the dataset does not contain any confidential information.
 
 ### Does the dataset contain data that, if viewed directly, might be offensive, insulting, threatening, or might otherwise cause anxiety?
 
-No, the dataset only contains instructional assembly videos and related data which is not offensive in nature.
+<span style="color:red">No, the dataset only contains instructional assembly videos and related data which is not offensive in nature.</span>
 
 ### Does the dataset relate to people? 
 
@@ -109,7 +109,7 @@ N/A
 
 ### Is it possible to identify individuals (i.e., one or more natural persons), either directly or indirectly (i.e., in combination with other data) from the dataset?
 
-N/A
+Our dataset does not provide any extra information about these people that was not already publicly available from their uploaded videos, and respects when videos are deleted/made private by virtue of using video ids.
 
 ### Does the dataset contain data that might be considered sensitive in any way (e.g., data that reveals racial or ethnic origins, sexual orientations, religious beliefs, political opinions or union memberships, or locations; financial or health data; biometric or genetic data; forms of government identification, such as social security numbers; criminal history)?
 
@@ -203,7 +203,6 @@ The dataset could potentially be used for tasks such as:</span>
 
 - 3D object tracking in videos
 - Embodied AI for assembly
-- Grounding natural language instructions to videos
 - Action recognition and localization
 </span>
 
