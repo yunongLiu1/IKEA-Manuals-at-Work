@@ -185,7 +185,6 @@ class KeyframeDataset(torch.utils.data.Dataset):
         obj_meshes = []
         for part_id in part_ids:
             if ',' in part_id:
-                subassembly = None
                 # handle subassembly case, return multiple meshes
                 for sub_part_id in part_id.split(','):
                     mesh_key = (category, name, sub_part_id)
@@ -196,8 +195,7 @@ class KeyframeDataset(torch.utils.data.Dataset):
                         print(mesh_path)
                         mesh = trimesh.load(mesh_path)
                         self.obj_meshes_cache[mesh_key] = mesh
-                    subassembly = mesh if subassembly is None else trimesh.util.concatenate([subassembly, mesh])
-                obj_meshes.append(subassembly)
+                    obj_meshes.append(mesh)
             else:
                 mesh_key = (category, name, part_id)
                 if mesh_key in self.obj_meshes_cache:
@@ -382,28 +380,26 @@ class KeyframeDataset(torch.utils.data.Dataset):
             # frame_metas.append(frame_data['meta'])
             # is_frame_after_keyframes.append(is_frame_after_keyframe)
 
-
-
-            meshes = self.get_obj_meshes(category, name, frame_data['frame_parts'])
-            meshes_transformed = []
-
-            for m, mesh in enumerate(meshes.copy()):
-                mesh.apply_transform(frame_data['extrinsics'][m])
-                meshes_transformed.append(mesh.copy())
-
-
-            video_frames[f]['meshes'] = meshes_transformed
-
-            manual_meshes = self.get_obj_meshes(category, name, frame_data['manual']['parts'])
-            manual_meshes_transformed = []
-            for m, mesh in enumerate(manual_meshes.copy()):
-                mesh.apply_transform(frame_data['manual']['extrinsics'][m])
-                manual_meshes_transformed.append(mesh.copy())
-
-            video_frames[f]['manual_meshes'] = manual_meshes_transformed
-
+            if self.return_obj_paths:
+                frame_obj_paths = []
+                for part_id in frame_data['frame_parts']:
+                    if ',' in part_id:
+                        part_obj_paths = []
+                        for sub_part_id in part_id.split(','):
+                            obj_path = os.path.join(self.obj_dir, category, name, f"{sub_part_id.zfill(2)}.obj")
+                            part_obj_paths.append(obj_path)
+                        frame_obj_paths.append(part_obj_paths)
+                    else:
+                        obj_path = os.path.join(self.obj_dir, category, name, f"{part_id.zfill(2)}.obj")
+                        frame_obj_paths.append([obj_path])
+                obj_paths.append(frame_obj_paths)
+                frame_parts.append(frame_data['frame_parts'])
 
         sample = video_frames
+
+        # if self.return_obj_paths:
+        #     sample["obj_paths"] = obj_paths
+        #     sample["parts"] = frame_parts
 
         return sample
 

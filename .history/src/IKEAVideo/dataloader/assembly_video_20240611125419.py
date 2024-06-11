@@ -10,9 +10,6 @@ import PyPDF2
 import fitz
 from PIL import Image
 
-# Decode mask
-from pycocotools import mask as mask_utils
-
 
 def canonicalize_subassembly_parts(parts):
 
@@ -331,15 +328,6 @@ def find_subass_frames(cat_name_video_to_frames, video_dir, save_dir, save_subas
             input("next")
 
     return cat_name_video_to_subass_frames, cat_name_video_to_before_subass_frames
-
-
-def decode_mask(mask):
-    try:
-        mask = mask_utils.decode(mask)
-    except Exception as e:
-        print(e)
-        mask = None
-    return mask
 
 
 def find_keyframes(cat_name_video_to_subass_frames, cat_name_video_to_before_subass_frames, video_dir, save_dir, save_keyframe_imgs=False, verbose=False, debug=False):

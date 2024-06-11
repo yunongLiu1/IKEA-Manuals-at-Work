@@ -396,9 +396,9 @@ class KeyframeDataset(torch.utils.data.Dataset):
 
             manual_meshes = self.get_obj_meshes(category, name, frame_data['manual']['parts'])
             manual_meshes_transformed = []
-            for m, mesh in enumerate(manual_meshes.copy()):
+            for m, mesh in enumerate(manual_meshes):
                 mesh.apply_transform(frame_data['manual']['extrinsics'][m])
-                manual_meshes_transformed.append(mesh.copy())
+                manual_meshes_transformed.append(mesh)
 
             video_frames[f]['manual_meshes'] = manual_meshes_transformed
 

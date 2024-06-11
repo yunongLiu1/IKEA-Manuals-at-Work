@@ -5,13 +5,6 @@ import cv2
 from collections import defaultdict
 import itertools
 import matplotlib.pyplot as plt
-import numpy as np
-import PyPDF2
-import fitz
-from PIL import Image
-
-# Decode mask
-from pycocotools import mask as mask_utils
 
 
 def canonicalize_subassembly_parts(parts):
@@ -86,52 +79,46 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
         data = json.load(f)
 
     cat_name_video_to_frames = defaultdict(list)
+    # video_url_to_category_name = {}
     frame_count = 0
-    for furniture_d in tqdm(data[:1], desc="Loading annotation"):
+    for furniture_d in tqdm(data, desc="Loading annotation"):
         name = furniture_d['name']
         category = furniture_d['category']
         manual_id = furniture_d['manual_id']
         furniture_ids = furniture_d['furniture_ids']
-        variants = furniture_d['variants']
-        pip_urls = furniture_d['pipUrls']
         image_urls = furniture_d['mainImageUrls']
         manual_urls = furniture_d['manualUrls']
         video_urls = furniture_d['videoUrls']
-        # source = furniture_d['source']
+        
         steps = furniture_d['steps']
-        print(furniture_d.keys())
-        # 'name', 'category', 'manual_id', 'furniture_ids', 'variants', 'pipUrls', 'mainImageUrls', 'manualUrls', 'videoUrls', 'source', 'steps'
-        print(name, category, manual_id, furniture_ids, variants, pip_urls, image_urls, manual_urls, video_urls)
 
         for step_d in steps:
-            step_id = step_d['step_id']
-            manual_d = step_d['manual']
-            step_videos_d = step_d['video']
-            print(manual_d.keys())
-            for manual_key in manual_d.keys():
-                print(manual_key, manual_d[manual_key])
 
-            for step_video_d in step_videos_d:
-                print(step_video_d.keys())
+            step_id = step_d['step_id']
+
+            manual_d = step_d['manual']
+
+            step_videos = step_d['video']
+
+            for step_video_d in step_videos:
+
                 video_url = step_video_d['video_id']
                 step_start = step_video_d['step_start']
                 step_end = step_video_d['step_end']
                 step_duration = step_video_d['step_duration']
                 fps = step_video_d['fps']
+
                 substeps = step_video_d['substeps']
 
                 for substep_d in substeps:
-                    print(substep_d.keys())
                     substep_id = substep_d['substep_id']
                     substep_start = substep_d['substep_start']
                     substep_end = substep_d['substep_end']
                     substep_parts = substep_d['parts']
-                
-                
 
                 frames = step_video_d['frames']
 
-                for f, frame_d in enumerate(frames):
+                for frame_d in frames:
                     frame_id = frame_d['frame_id']
                     frame_time = frame_d['frame_time']
                     frame_parts = frame_d['parts']
@@ -148,31 +135,6 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
                         print("furniture: {}, name: {}, frame_id: {}".format(category, name, frame_id))
 
                     frame_count += 1
-                    ## Add metadata to the frame
-                    frames[f]['category'] = category
-                    frames[f]['name'] = name
-                    frames[f]['video_url'] = video_url
-                    frames[f]['other_video_urls'] = video_urls 
-                    frames[f]['manual_id'] = manual_id
-                    frames[f]['furniture_ids'] = furniture_ids
-                    frames[f]['variants'] = variants
-                    frames[f]['pip_urls'] = pip_urls
-                    frames[f]['image_urls'] = image_urls
-                    frames[f]['manual_urls'] = manual_urls
-                    frames[f]['video_urls'] = video_urls
-                    
-                    frames[f]['step_id'] = step_id
-                    frames[f]['step_start'] = step_start
-                    frames[f]['step_end'] = step_end
-                    frames[f]['step_duration'] = step_duration
-                    
-                    frames[f]['substep_id'] = substep_id
-                    frames[f]['substep_start'] = substep_start
-                    frames[f]['substep_end'] = substep_end
-
-                    frames[f]['fps'] = fps
-
-                    frames[f]['manual'] = manual_d
 
                 cat_name_video_to_frames[(category, name, video_url)].extend(frames)
 
@@ -190,22 +152,9 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
         mean_n_frames = sum(frames_for_cat_name_video) / len(frames_for_cat_name_video)
         print(f"{len(cat_name_video_to_frames)} unique (cat, name, video) pairs")
         print(f"Number of frames per (cat, name, video): min {min_n_frames}, max {max_n_frames}, mean {mean_n_frames}")
-    
+
     return cat_name_video_to_frames
 
-def load_pdf_page(pdf_file, page_num):
-    pdf_document = fitz.open(pdf_file)
-    page = pdf_document[page_num]
-    image = page.get_pixmap()
-
-
-    # Assuming you have a Pixmap object named 'pixmap'
-    width, height = image.width, image.height
-    data = image.samples
-    # Create a new PIL Image object from the Pixmap data
-    image = Image.frombytes("RGB", (width, height), data)
-    np_image = np.array(image)
-    return np_image
 
 def find_subass_frames(cat_name_video_to_frames, video_dir, save_dir, save_subass_frame_imgs=False, verbose=False, debug=False):
 
@@ -331,15 +280,6 @@ def find_subass_frames(cat_name_video_to_frames, video_dir, save_dir, save_subas
             input("next")
 
     return cat_name_video_to_subass_frames, cat_name_video_to_before_subass_frames
-
-
-def decode_mask(mask):
-    try:
-        mask = mask_utils.decode(mask)
-    except Exception as e:
-        print(e)
-        mask = None
-    return mask
 
 
 def find_keyframes(cat_name_video_to_subass_frames, cat_name_video_to_before_subass_frames, video_dir, save_dir, save_keyframe_imgs=False, verbose=False, debug=False):

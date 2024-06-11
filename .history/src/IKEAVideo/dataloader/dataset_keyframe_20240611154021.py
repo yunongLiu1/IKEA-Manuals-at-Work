@@ -185,7 +185,6 @@ class KeyframeDataset(torch.utils.data.Dataset):
         obj_meshes = []
         for part_id in part_ids:
             if ',' in part_id:
-                subassembly = None
                 # handle subassembly case, return multiple meshes
                 for sub_part_id in part_id.split(','):
                     mesh_key = (category, name, sub_part_id)
@@ -196,8 +195,7 @@ class KeyframeDataset(torch.utils.data.Dataset):
                         print(mesh_path)
                         mesh = trimesh.load(mesh_path)
                         self.obj_meshes_cache[mesh_key] = mesh
-                    subassembly = mesh if subassembly is None else trimesh.util.concatenate([subassembly, mesh])
-                obj_meshes.append(subassembly)
+                    obj_meshes.append(mesh)
             else:
                 mesh_key = (category, name, part_id)
                 if mesh_key in self.obj_meshes_cache:
@@ -384,24 +382,11 @@ class KeyframeDataset(torch.utils.data.Dataset):
 
 
 
-            meshes = self.get_obj_meshes(category, name, frame_data['frame_parts'])
-            meshes_transformed = []
+            meshes = None
+            for part in frame_data['frame_parts']:
+                meshes = self.get_obj_meshes(category, name, part.split(',')) if meshes is None else trimesh.util.concatenate(meshes,self.get_obj_meshes(category, name, part.split(',')))
 
-            for m, mesh in enumerate(meshes.copy()):
-                mesh.apply_transform(frame_data['extrinsics'][m])
-                meshes_transformed.append(mesh.copy())
-
-
-            video_frames[f]['meshes'] = meshes_transformed
-
-            manual_meshes = self.get_obj_meshes(category, name, frame_data['manual']['parts'])
-            manual_meshes_transformed = []
-            for m, mesh in enumerate(manual_meshes.copy()):
-                mesh.apply_transform(frame_data['manual']['extrinsics'][m])
-                manual_meshes_transformed.append(mesh.copy())
-
-            video_frames[f]['manual_meshes'] = manual_meshes_transformed
-
+        video_frames[f]['meshes'] = meshes
 
         sample = video_frames
 

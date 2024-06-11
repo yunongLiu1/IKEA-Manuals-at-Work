@@ -386,22 +386,14 @@ class KeyframeDataset(torch.utils.data.Dataset):
 
             meshes = self.get_obj_meshes(category, name, frame_data['frame_parts'])
             meshes_transformed = []
-
-            for m, mesh in enumerate(meshes.copy()):
+            for m, mesh in enumerate(meshes):
                 mesh.apply_transform(frame_data['extrinsics'][m])
-                meshes_transformed.append(mesh.copy())
+                meshes_transformed.append(mesh)
 
 
-            video_frames[f]['meshes'] = meshes_transformed
 
-            manual_meshes = self.get_obj_meshes(category, name, frame_data['manual']['parts'])
-            manual_meshes_transformed = []
-            for m, mesh in enumerate(manual_meshes.copy()):
-                mesh.apply_transform(frame_data['manual']['extrinsics'][m])
-                manual_meshes_transformed.append(mesh.copy())
 
-            video_frames[f]['manual_meshes'] = manual_meshes_transformed
-
+        video_frames[f]['meshes'] = meshes_transformed
 
         sample = video_frames
 

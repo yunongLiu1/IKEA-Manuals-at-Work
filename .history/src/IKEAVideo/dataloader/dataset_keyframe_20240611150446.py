@@ -12,16 +12,8 @@ import cv2
 from PIL import Image
 import matplotlib.pyplot as plt
 
-from IKEAVideo.dataloader.assembly_video import load_annotation, load_video, load_frame, canonicalize_subassembly_parts, find_keyframes, find_subass_frames, load_pdf_page, decode_mask
+from IKEAVideo.dataloader.assembly_video import load_annotation, load_video, load_frame, canonicalize_subassembly_parts, find_keyframes, find_subass_frames, load_pdf_page
 
-
-# colors = [
-#     '#5A9BD5', '#FF6F61', '#E5C07B', '#77B77A', '#A67EB1', '#FF89B6', '#FFB07B',
-#     '#C5A3CF', '#FFA8B6', '#A3C9E0', '#FFC89B', '#E58B8B',
-#     '#A3B8D3', '#D4C3E8', '#66B2AA', '#E4A878', '#6882A4', '#D1AEDD', '#E8A4A6',
-#     '#A5DAD7', '#C6424A', '#E1D1F4', '#FFD8DC', '#F4D49B', '#8394A8'
-# ]
-colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255), (0, 255, 255)]  # Example colors
 
 
 class KeyframeDataset(torch.utils.data.Dataset):
@@ -142,12 +134,9 @@ class KeyframeDataset(torch.utils.data.Dataset):
                 frame_data['substep_start'] = frame_d['substep_start']
                 frame_data['substep_end'] = frame_d['substep_end']
                 frame_data['manual'] = frame_d['manual']
-                frame_data['mask'] = frame_d['mask']
-                frame_data['extrinsics'] = frame_d['extrinsics']
-                frame_data['intrinsics'] = frame_d['intrinsics']
 
-                manual_image_dir  = os.path.join(self.manual_img_dir, category, name, f'step_{frame_data["step_id"]}')
-
+                manual_image_dir  = os.path.join(self.manual_img_dir, category, name, f'step_{str(int(frame_data["step_id"])-1)}')
+                print(manual_image_dir)
                 if os.path.exists(manual_image_dir):
                     if len(os.listdir(manual_image_dir)) == 1:
                         #print ("manual image exists")
@@ -185,7 +174,6 @@ class KeyframeDataset(torch.utils.data.Dataset):
         obj_meshes = []
         for part_id in part_ids:
             if ',' in part_id:
-                subassembly = None
                 # handle subassembly case, return multiple meshes
                 for sub_part_id in part_id.split(','):
                     mesh_key = (category, name, sub_part_id)
@@ -196,8 +184,7 @@ class KeyframeDataset(torch.utils.data.Dataset):
                         print(mesh_path)
                         mesh = trimesh.load(mesh_path)
                         self.obj_meshes_cache[mesh_key] = mesh
-                    subassembly = mesh if subassembly is None else trimesh.util.concatenate([subassembly, mesh])
-                obj_meshes.append(subassembly)
+                    obj_meshes.append(mesh)
             else:
                 mesh_key = (category, name, part_id)
                 if mesh_key in self.obj_meshes_cache:
@@ -250,7 +237,6 @@ class KeyframeDataset(torch.utils.data.Dataset):
                 print(f"Category: {category}")
                 print(f"Name: {name}")
                 print(f"Video URL: {video_url}")
-                print(f'Other Video URLs for the Same Furniture: {frame_data["other_video_urls"]}')
                 print(f"Frame Time: {frame_time}")
                 print(f"Is Keyframe: {is_keyframe}")
                 print(f"Is Frame After Keyframe: {is_frame_after_keyframe}")
@@ -259,11 +245,10 @@ class KeyframeDataset(torch.utils.data.Dataset):
                 
                 print(f"Furniture IDs: {frame_data['furniture_ids']}")
                 print(f"Variants: {frame_data['variants']}")
-                print(f"Furniture URLs: {frame_data['pip_urls']}")
-                print(f"Furniture Main Image URLs: {frame_data['image_urls']}")
+                print(f"PIP URLs: {frame_data['pip_urls']}")
+                print(f"Image URLs: {frame_data['image_urls']}")
                
                 print(f"Video URLs: {frame_data['video_urls']}")
-                print(f'Manual Step ID: {frame_data["manual"]["step_id_global"]}')
                 print(f"Step ID: {frame_data['step_id']}")
                 print(f"Step Start: {frame_data['step_start']}")
                 print(f"Step End: {frame_data['step_end']}")
@@ -271,7 +256,6 @@ class KeyframeDataset(torch.utils.data.Dataset):
                 print(f"Substep ID: {frame_data['substep_id']}")
                 print(f"Substep Start: {frame_data['substep_start']}")
                 print(f"Substep End: {frame_data['substep_end']}")
-
                 
                 print(f"Frame ID: {frame_data['frame_id']}")
                 print(f"Other Video URLs: {frame_data['other_video_urls']}")
@@ -284,42 +268,9 @@ class KeyframeDataset(torch.utils.data.Dataset):
                 plt.axis('off')
                 plt.show()
 
-                ## Display mask on the frame
-                masks = frame_data['mask']
-                
-                decoded_masks = []
-                for mask in masks:
-                    mask = decode_mask(mask)
-                    if mask is None:
-                        decoded_masks.append(np.zeros_like(img))
-                        continue
-                    decoded_masks.append(mask*255)
-
-
-                # Create a copy of the original image to overlay the masks
-                overlay_img = img.copy()
-
-                # Iterate over the decoded masks and overlay them on the image
-                for i, mask in enumerate(decoded_masks):
-                    color_id = min([int(p) for p in frame_data['frame_parts'][i].split(',')])
-                    color = colors[color_id % len(colors)]
-                    mask = cv2.resize(mask, (img.shape[1], img.shape[0]))  # Resize the mask to match the image dimensions
-                    mask_indices = mask == 255  # Get the indices where the mask is present
-                    overlay_img[mask_indices] = overlay_img[mask_indices] * 0.5 + np.array(color) * 0.5  # Apply the color to the corresponding pixels in the overlay image
-
-                # Display the image with overlaid masks
-                plt.figure(figsize=(8, 6))
-                plt.imshow(cv2.cvtColor(overlay_img, cv2.COLOR_BGR2RGB))
-                plt.axis('off')
-                plt.show()
-                
-                
-
                 print(f"Manual URLs: {frame_data['manual_urls']}")
                 print(f"Manual ID: {frame_data['manual_id']}")
-                print(f"Manual Parts: {frame_data['manual']['parts']}")
-                print(f"Manual Connections: {frame_data['manual']['connnections']}")
-                
+                print(f"Manual: {frame_data['manual']}")
                 print(f"Croped Manual Image: ")
                 print
                 ## Manual Image
@@ -331,37 +282,10 @@ class KeyframeDataset(torch.utils.data.Dataset):
 
                 print(f"PDF Page: {frame_data['manual']['page_id']}")
                 
-                # print(f"PDF Image: ")
-                # ## PDF Image
-                # plt.figure(figsize=(8, 6))
-                # plt.imshow(frame_data['pdf_img'])
-                # plt.axis('off')
-                # plt.show()
-
-                ## PDF with annotated mask
-                pdf_masks = frame_data['manual']['mask']
-                decoded_masks = []
-                for mask in pdf_masks:
-                    mask = decode_mask(mask)
-                    if mask is None:
-                        decoded_masks.append(np.zeros_like(img))
-                        continue
-                    decoded_masks.append(mask*255)
-
-                # Create a copy of the original image to overlay the masks
-                overlay_img = frame_data['pdf_img'].copy()
-
-                # Iterate over the decoded masks and overlay them on the image
-                for i, mask in enumerate(decoded_masks):
-                    color_id = min([int(p) for p in frame_data['manual']['parts'][i].split(',')])
-                    color = colors[color_id % len(colors)]
-                    mask = cv2.resize(mask, (overlay_img.shape[1], overlay_img.shape[0]))
-                    mask_indices = mask == 255
-                    overlay_img[mask_indices] = overlay_img[mask_indices] * 0.5 + np.array(color) * 0.5
-
-                # Display the image with overlaid masks
+                print(f"PDF Image: ")
+                ## PDF Image
                 plt.figure(figsize=(8, 6))
-                plt.imshow(overlay_img)
+                plt.imshow(frame_data['pdf_img'])
                 plt.axis('off')
                 plt.show()
 
@@ -382,28 +306,40 @@ class KeyframeDataset(torch.utils.data.Dataset):
             # frame_metas.append(frame_data['meta'])
             # is_frame_after_keyframes.append(is_frame_after_keyframe)
 
+            if self.return_obj_paths:
+                frame_obj_paths = []
+                for part_id in frame_data['frame_parts']:
+                    if ',' in part_id:
+                        part_obj_paths = []
+                        for sub_part_id in part_id.split(','):
+                            obj_path = os.path.join(self.obj_dir, category, name, f"{sub_part_id.zfill(2)}.obj")
+                            part_obj_paths.append(obj_path)
+                        frame_obj_paths.append(part_obj_paths)
+                    else:
+                        obj_path = os.path.join(self.obj_dir, category, name, f"{part_id.zfill(2)}.obj")
+                        frame_obj_paths.append([obj_path])
+                obj_paths.append(frame_obj_paths)
+                frame_parts.append(frame_data['frame_parts'])
 
+        # Add the first and last frames to the list of frames to keyframes
+        # is_keyframes[-1] = True
 
-            meshes = self.get_obj_meshes(category, name, frame_data['frame_parts'])
-            meshes_transformed = []
-
-            for m, mesh in enumerate(meshes.copy()):
-                mesh.apply_transform(frame_data['extrinsics'][m])
-                meshes_transformed.append(mesh.copy())
-
-
-            video_frames[f]['meshes'] = meshes_transformed
-
-            manual_meshes = self.get_obj_meshes(category, name, frame_data['manual']['parts'])
-            manual_meshes_transformed = []
-            for m, mesh in enumerate(manual_meshes.copy()):
-                mesh.apply_transform(frame_data['manual']['extrinsics'][m])
-                manual_meshes_transformed.append(mesh.copy())
-
-            video_frames[f]['manual_meshes'] = manual_meshes_transformed
-
-
+        # sample = {
+        #     "imgs": imgs,
+        #     "is_keyframes": is_keyframes,
+        #     "category": category,
+        #     "name": name,
+        #     "video_url": video_url,
+        #     "frame_times": frame_times,
+        #     "frame_metas": frame_metas,
+        #     "video_id": video_id,
+        #     "is_frame_after_keyframe": is_frame_after_keyframes
+        # }
         sample = video_frames
 
-        return sample
+        # if self.return_obj_paths:
+        #     sample["obj_paths"] = obj_paths
+        #     sample["parts"] = frame_parts
 
+        return sample
+         

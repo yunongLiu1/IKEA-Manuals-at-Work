@@ -5,13 +5,6 @@ import cv2
 from collections import defaultdict
 import itertools
 import matplotlib.pyplot as plt
-import numpy as np
-import PyPDF2
-import fitz
-from PIL import Image
-
-# Decode mask
-from pycocotools import mask as mask_utils
 
 
 def canonicalize_subassembly_parts(parts):
@@ -193,19 +186,6 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
     
     return cat_name_video_to_frames
 
-def load_pdf_page(pdf_file, page_num):
-    pdf_document = fitz.open(pdf_file)
-    page = pdf_document[page_num]
-    image = page.get_pixmap()
-
-
-    # Assuming you have a Pixmap object named 'pixmap'
-    width, height = image.width, image.height
-    data = image.samples
-    # Create a new PIL Image object from the Pixmap data
-    image = Image.frombytes("RGB", (width, height), data)
-    np_image = np.array(image)
-    return np_image
 
 def find_subass_frames(cat_name_video_to_frames, video_dir, save_dir, save_subass_frame_imgs=False, verbose=False, debug=False):
 
@@ -331,15 +311,6 @@ def find_subass_frames(cat_name_video_to_frames, video_dir, save_dir, save_subas
             input("next")
 
     return cat_name_video_to_subass_frames, cat_name_video_to_before_subass_frames
-
-
-def decode_mask(mask):
-    try:
-        mask = mask_utils.decode(mask)
-    except Exception as e:
-        print(e)
-        mask = None
-    return mask
 
 
 def find_keyframes(cat_name_video_to_subass_frames, cat_name_video_to_before_subass_frames, video_dir, save_dir, save_keyframe_imgs=False, verbose=False, debug=False):
