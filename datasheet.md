@@ -250,7 +250,7 @@ The dataset is released under the CC-BY-4.0 license.
 
 ### Have any third parties imposed IP-based or other restrictions on the data associated with the instances?
 
-<span style="color:red"> The dataset contains IKEA's furniture designs and assembly instructions, which are likely protected intellectual property.</span>
+We build on IKEA-Manual and IAW, both are under CC. The additional annotations we provide does not involve IP-based restrictions.
 
 ### Do any export controls or other regulatory restrictions apply to the dataset or to individual instances?
 
