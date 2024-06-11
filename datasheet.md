@@ -23,11 +23,11 @@ The IKEA Video Manuals dataset was created to tackle the 4D grounding of assembl
 
 ### Who created the dataset (e.g., which team, research group) and on behalf of which entity (e.g., company, institution, organization)?
 
-This dataset was created by researchers from the CogAI group at Stanford University <span style="color:red">and researchers from J.P. Morgan AI Research.</span>
+This dataset was created by researchers from the CogAI group at Stanford University and researchers from J.P. Morgan AI Research.
 
 ### Who funded the creation of the dataset? 
 
-<span style="color:red">This project was funded by JPMorgan.</span>
+This project was funded by JPMorgan.
 
 ### Any other comments?
 
@@ -198,13 +198,12 @@ Yes, the paper demonstrates the use of the dataset for assembly plan generation,
 Our paper is under review, but the data repository will provide links to papers that use the dataset in the future.
 
 ### What (other) tasks could the dataset be used for?
-<span style="color:red"> 
-The dataset could potentially be used for tasks such as:</span>
+The dataset could potentially be used for tasks such as:
 
 - 3D object tracking in videos
 - Embodied AI for assembly
 - Action recognition and localization
-</span>
+
 
 ## Uses
 
@@ -213,8 +212,7 @@ The dataset could potentially be used for tasks such as:</span>
 The dataset has several potential biases and limitations, including:
 1. Limited object diversity (IKEA furniture only)
 2. Annotator subjectivity in labeling
-3. Intellectual property restrictions for commercial use
-4. Limited contextual information beyond furniture assembly
+3. Limited contextual information beyond furniture assembly
 
 Future users should consider these factors when using the dataset and acknowledge them in their work.
 
