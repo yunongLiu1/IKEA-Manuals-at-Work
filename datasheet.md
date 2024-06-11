@@ -98,11 +98,11 @@ No, the dataset does not contain any confidential information.
 
 ### Does the dataset contain data that, if viewed directly, might be offensive, insulting, threatening, or might otherwise cause anxiety?
 
-<span style="color:red">No, the dataset only contains instructional assembly videos and related data which is not offensive in nature.</span>
+No, the dataset only contains instructional assembly videos and related data which is not offensive in nature.
 
 ### Does the dataset relate to people? 
 
-No, the dataset focuses on furniture objects and assembly instructions. The remaining questions in this section are not applicable.
+<span style="color:red">No, the dataset focuses on furniture objects and assembly instructions. The remaining questions in this section are not applicable.</span>
 ### Does the dataset identify any subpopulations (e.g., by age, gender)?
 
 N/A
