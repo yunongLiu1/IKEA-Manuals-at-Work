@@ -175,10 +175,25 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
                     frames[f]['step_start'] = step_start
                     frames[f]['step_end'] = step_end
                     frames[f]['step_duration'] = step_duration
+
+                    frames[f]['substep_id'] = -1
+                    frames[f]['substep_start'] = -1
+                    frames[f]['substep_end'] = -1
+                    for substep_d in substeps:
+                        #print(substep_d.keys())
+                        substep_id = substep_d['substep_id']
+                        substep_start = substep_d['substep_start']
+                        substep_end = substep_d['substep_end']
+                        if substep_start <= frame_time and frame_time <= substep_end:
+                            # print(f'Frame {frame_id} is in substep {substep_id}')
+                            frames[f]['substep_id'] = substep_id
+                            frames[f]['substep_start'] = substep_start
+                            frames[f]['substep_end'] = substep_end
+
                     
-                    frames[f]['substep_id'] = substep_id
-                    frames[f]['substep_start'] = substep_start
-                    frames[f]['substep_end'] = substep_end
+                    # frames[f]['substep_id'] = substep_id
+                    # frames[f]['substep_start'] = substep_start
+                    # frames[f]['substep_end'] = substep_end
 
                     frames[f]['fps'] = fps
 

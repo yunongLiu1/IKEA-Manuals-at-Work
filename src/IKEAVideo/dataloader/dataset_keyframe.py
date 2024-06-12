@@ -13,7 +13,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 from IKEAVideo.dataloader.assembly_video import load_annotation, load_video, load_frame, canonicalize_subassembly_parts, find_keyframes, find_subass_frames, load_pdf_page, decode_mask
-
+import IKEAVideo.utils.transformations as tra
 
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
@@ -409,7 +409,9 @@ class KeyframeDataset(torch.utils.data.Dataset):
             meshes_transformed = []
 
             for m, mesh in enumerate(meshes.copy()):
-                mesh.apply_transform(frame_data['extrinsics'][m])
+                mesh.apply_transform(tra.euler_matrix(0, 0, np.pi) @ frame_data['extrinsics'][m])
+                mesh.apply_transform(tra.euler_matrix(0, np.pi,0))
+                # mesh.apply_transform(tra.euler_matrix(0, np.pi,0))
                 meshes_transformed.append(mesh.copy())
 
 

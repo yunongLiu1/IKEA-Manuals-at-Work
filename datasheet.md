@@ -148,7 +148,8 @@ The dataset is a curated sample of IKEA furniture assembly instances, selected b
 
 The authors of the paper were responsible for collecting the source data (videos, 3D models, and manuals), developing the annotation interface, and writing the annotation guidelines. 
 
-<span style="color:red"> For the annotation process, the authors employed a team of annotators. The annotators were compensated for their work at a rate above the minimum wage. </span>
+<!-- <span style="color:red"> For the annotation process, the authors employed a team of annotators. The annotators were compensated for their work at a rate above the minimum wage. </span> -->
+The data annotation process was outsourced to an annotation company. The annotators were compensated based on the work they provided, with the estimated hourly pay being above the minimum wage.
 
 ### Over what timeframe was the data collected?
 
@@ -158,7 +159,6 @@ The source data (videos, 3D models, and manuals) was collected over a period of 
 ### Were any ethical review processes conducted?
 
 N/A
-
 
 ### Does the dataset relate to people?
 
