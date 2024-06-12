@@ -15,17 +15,13 @@ import matplotlib.pyplot as plt
 from IKEAVideo.dataloader.assembly_video import load_annotation, load_video, load_frame, canonicalize_subassembly_parts, find_keyframes, find_subass_frames, load_pdf_page, decode_mask
 
 
-def hex_to_rgb(hex_color):
-    hex_color = hex_color.lstrip('#')
-    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-
-colors_hex = [
-    '#5A9BD5', '#FF6F61', '#E5C07B', '#77B77A', '#A67EB1', '#FF89B6', '#FFB07B',
-    '#C5A3CF', '#FFA8B6', '#A3C9E0', '#FFC89B', '#E58B8B',
-    '#A3B8D3', '#D4C3E8', '#66B2AA', '#E4A878', '#6882A4', '#D1AEDD', '#E8A4A6',
-    '#A5DAD7', '#C6424A', '#E1D1F4', '#FFD8DC', '#F4D49B', '#8394A8'
-]
-colors = [hex_to_rgb(color) for color in colors_hex]
+# colors = [
+#     '#5A9BD5', '#FF6F61', '#E5C07B', '#77B77A', '#A67EB1', '#FF89B6', '#FFB07B',
+#     '#C5A3CF', '#FFA8B6', '#A3C9E0', '#FFC89B', '#E58B8B',
+#     '#A3B8D3', '#D4C3E8', '#66B2AA', '#E4A878', '#6882A4', '#D1AEDD', '#E8A4A6',
+#     '#A5DAD7', '#C6424A', '#E1D1F4', '#FFD8DC', '#F4D49B', '#8394A8'
+# ]
+colors = [(255, 0, 0), (0, 0, 255), (0, 255, 0),  (255, 255, 0), (255, 0, 255), (0, 255, 255)]  # Example colors: red, green, blue, yellow, magenta, cyan
 
 
 class KeyframeDataset(torch.utils.data.Dataset):

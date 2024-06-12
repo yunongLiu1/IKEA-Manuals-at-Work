@@ -15,17 +15,13 @@ import matplotlib.pyplot as plt
 from IKEAVideo.dataloader.assembly_video import load_annotation, load_video, load_frame, canonicalize_subassembly_parts, find_keyframes, find_subass_frames, load_pdf_page, decode_mask
 
 
-def hex_to_rgb(hex_color):
-    hex_color = hex_color.lstrip('#')
-    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-
-colors_hex = [
-    '#5A9BD5', '#FF6F61', '#E5C07B', '#77B77A', '#A67EB1', '#FF89B6', '#FFB07B',
-    '#C5A3CF', '#FFA8B6', '#A3C9E0', '#FFC89B', '#E58B8B',
-    '#A3B8D3', '#D4C3E8', '#66B2AA', '#E4A878', '#6882A4', '#D1AEDD', '#E8A4A6',
-    '#A5DAD7', '#C6424A', '#E1D1F4', '#FFD8DC', '#F4D49B', '#8394A8'
-]
-colors = [hex_to_rgb(color) for color in colors_hex]
+# colors = [
+#     '#5A9BD5', '#FF6F61', '#E5C07B', '#77B77A', '#A67EB1', '#FF89B6', '#FFB07B',
+#     '#C5A3CF', '#FFA8B6', '#A3C9E0', '#FFC89B', '#E58B8B',
+#     '#A3B8D3', '#D4C3E8', '#66B2AA', '#E4A878', '#6882A4', '#D1AEDD', '#E8A4A6',
+#     '#A5DAD7', '#C6424A', '#E1D1F4', '#FFD8DC', '#F4D49B', '#8394A8'
+# ]
+colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255), (0, 255, 255)]  # Example colors
 
 
 class KeyframeDataset(torch.utils.data.Dataset):
@@ -150,7 +146,6 @@ class KeyframeDataset(torch.utils.data.Dataset):
                 frame_data['extrinsics'] = frame_d['extrinsics']
                 frame_data['intrinsics'] = frame_d['intrinsics']
                 frame_data['num_of_camera_changes'] = frame_d['num_of_duration']
-                frame_data['iaw_metadata'] = frame_d['iaw_metadata']
 
                 manual_image_dir  = os.path.join(self.manual_img_dir, category, name, f'step_{frame_data["step_id"]}')
 
@@ -200,7 +195,7 @@ class KeyframeDataset(torch.utils.data.Dataset):
                     else:
                         mesh_path = os.path.join(self.obj_dir, category, name, f"{sub_part_id.zfill(2)}.obj")
                         print(mesh_path)
-                        mesh = trimesh.load(mesh_path, force='mesh')
+                        mesh = trimesh.load(mesh_path)
                         self.obj_meshes_cache[mesh_key] = mesh
                     subassembly = mesh if subassembly is None else trimesh.util.concatenate([subassembly, mesh])
                 obj_meshes.append(subassembly)
@@ -210,7 +205,7 @@ class KeyframeDataset(torch.utils.data.Dataset):
                     mesh = self.obj_meshes_cache[mesh_key]
                 else:
                     mesh_path = os.path.join(self.obj_dir, category, name, f"{part_id.zfill(2)}.obj")
-                    mesh = trimesh.load(mesh_path, force='mesh')
+                    mesh = trimesh.load(mesh_path)
                     self.obj_meshes_cache[mesh_key] = mesh
                 obj_meshes.append(mesh)
         return obj_meshes

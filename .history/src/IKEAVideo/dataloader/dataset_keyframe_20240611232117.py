@@ -25,7 +25,7 @@ colors_hex = [
     '#A3B8D3', '#D4C3E8', '#66B2AA', '#E4A878', '#6882A4', '#D1AEDD', '#E8A4A6',
     '#A5DAD7', '#C6424A', '#E1D1F4', '#FFD8DC', '#F4D49B', '#8394A8'
 ]
-colors = [hex_to_rgb(color) for color in colors_hex]
+colors_rgb = [hex_to_rgb(color) for color in colors_hex]
 
 
 class KeyframeDataset(torch.utils.data.Dataset):
