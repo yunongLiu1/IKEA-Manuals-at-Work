@@ -27,7 +27,7 @@ IKEA Manuals at Work: 4D Grounding of Assembly Instructions on Internet Videos
 
 ## Data
 
-- [Annotations](https://github.com/yunongLiu1/IKEA-Manual-at-Work/blob/main/data/data.json)
+- [Annotations](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/data/data.json)
 
 ## Dataset
 
@@ -63,7 +63,7 @@ For more information about the dataset, please refer to the [datasheet](https://
 1. Install the required dependencies and set up the environment as described in the [Installation](#installation) section.
 
 2. Download the dataset files and place them in the appropriate directories:
-  - Annotation file: [`data/data.json`](https://github.com/yunongLiu1/IKEA-Manual-at-Work/blob/main/data/data.json)
+  - Annotation file: [`data/data.json`](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/data/data.json)
   - 3D models: `data/parts/`
   - Instructional manuals: `data/manual_img/` and `data/pdfs/` 
 
@@ -71,7 +71,7 @@ For more information about the dataset, please refer to the [datasheet](https://
   - Download the videos from the Google Drive link and place them in the `data/videos/` directory.
 
 4. Explore the dataset using the provided Jupyter notebook:
-  - Open the [`notebooks/data_viz.ipynb`](https://github.com/yunongLiu1/IKEA-Manual-at-Work/blob/main/notebooks/data_viz.ipynb) notebook.
+  - Open the [`notebooks/data_viz.ipynb`](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/notebooks/data_viz.ipynb) notebook.
   - Follow the instructions in the notebook to load and visualize the data.
 
 ## Citation
