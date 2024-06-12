@@ -428,7 +428,7 @@ def find_keyframes(cat_name_video_to_subass_frames, cat_name_video_to_before_sub
             keyframe_d = keyframe['keyframe_d']
             assembled_subass = keyframe['assembled_subass']
             if verbose:
-                print(f"frame_id: {next_frame_d['frame_id']} | frame_time: {next_frame_d['frame_time']} | frame_parts: {next_frame_d['parts']} |-----| keyframe_id: {keyframe_d['frame_id']} | keyframe_time: {keyframe_d['frame_time']}| keyframe_parts: {keyframe_d['parts']} | assembled_subass: {assembled_subass}")
+                #print(f"frame_id: {next_frame_d['frame_id']} | frame_time: {next_frame_d['frame_time']} | frame_parts: {next_frame_d['parts']} |-----| keyframe_id: {keyframe_d['frame_id']} | keyframe_time: {keyframe_d['frame_time']}| keyframe_parts: {keyframe_d['parts']} | assembled_subass: {assembled_subass}")
 
             if save_keyframe_imgs or debug:
                 video = load_video(video_dir, cat, name, video_url)

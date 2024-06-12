@@ -150,11 +150,11 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
                     extrinsics = frame_d['extrinsics']  # a list of extrinsics
 
                     if len(frame_masks) != len(intrinsics):
-                        print(f"Lengths of frame mask {len(frame_masks)} and intrinsics {len(intrinsics)} do not match for furniture {category} {name} frame {frame_id}")
+                        #print(f"Lengths of frame mask {len(frame_masks)} and intrinsics {len(intrinsics)} do not match for furniture {category} {name} frame {frame_id}")
 
                     if not(len(intrinsics) == len(extrinsics) >= len(frame_parts)):
-                        print("Lengths of intrinsics {}, extrinsics {}, and parts {} do not match.".format(len(intrinsics), len(extrinsics), len(frame_parts)))
-                        print("furniture: {}, name: {}, frame_id: {}".format(category, name, frame_id))
+                        #print("Lengths of intrinsics {}, extrinsics {}, and parts {} do not match.".format(len(intrinsics), len(extrinsics), len(frame_parts)))
+                        #print("furniture: {}, name: {}, frame_id: {}".format(category, name, frame_id))
 
                     frame_count += 1
                     ## Add metadata to the frame
@@ -197,15 +197,15 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
             cat_name_video_to_frames[k] = sorted(cat_name_video_to_frames[k], key=lambda x: x['frame_time'])
 
     if verbose:
-        print("=" * 50)
-        print("Loading annotation from file: ", annotation_file)
-        print("Total frame count: ", frame_count)
+        #print("=" * 50)
+        #print("Loading annotation from file: ", annotation_file)
+        #print("Total frame count: ", frame_count)
         frames_for_cat_name_video = [len(cat_name_video_to_frames[k]) for k in cat_name_video_to_frames]
         min_n_frames = min(frames_for_cat_name_video)
         max_n_frames = max(frames_for_cat_name_video)
         mean_n_frames = sum(frames_for_cat_name_video) / len(frames_for_cat_name_video)
-        print(f"{len(cat_name_video_to_frames)} unique (cat, name, video) pairs")
-        print(f"Number of frames per (cat, name, video): min {min_n_frames}, max {max_n_frames}, mean {mean_n_frames}")
+        #print(f"{len(cat_name_video_to_frames)} unique (cat, name, video) pairs")
+        #print(f"Number of frames per (cat, name, video): min {min_n_frames}, max {max_n_frames}, mean {mean_n_frames}")
     
     return cat_name_video_to_frames
 
@@ -230,10 +230,10 @@ def find_subass_frames(cat_name_video_to_frames, video_dir, save_dir, save_subas
     for (cat, name, video_url) in tqdm(cat_name_video_to_frames, desc="Checking frames for each video"):
 
         if verbose:
-            print("=" * 50)
-            print("Category: ", cat)
-            print("Name: ", name)
-            print("Video URL: ", video_url)
+            #print("=" * 50)
+            #print("Category: ", cat)
+            #print("Name: ", name)
+            #print("Video URL: ", video_url)
 
         frames = cat_name_video_to_frames[(cat, name, video_url)]
 
@@ -254,7 +254,7 @@ def find_subass_frames(cat_name_video_to_frames, video_dir, save_dir, save_subas
             frame_parts = sorted(frame_parts)
 
             if verbose:
-                print(f"frame_id: {frame_id} | frame_time: {frame_time} | frame_parts: {frame_parts}")
+                #print(f"frame_id: {frame_id} | frame_time: {frame_time} | frame_parts: {frame_parts}")
 
             is_subass_frame = False
             for parts in frame_parts:
@@ -281,7 +281,7 @@ def find_subass_frames(cat_name_video_to_frames, video_dir, save_dir, save_subas
             before_subass_frames_names = []
 
         if verbose:
-            print("+" * 20, "\nsubass_frames: ")
+            #print("+" * 20, "\nsubass_frames: ")
         for frame_d, before_frame_d in zip(subass_frames, before_subass_frames):
 
             frame_id = frame_d['frame_id']
@@ -304,7 +304,7 @@ def find_subass_frames(cat_name_video_to_frames, video_dir, save_dir, save_subas
                 before_frame_parts = None
 
             if verbose:
-                print(f"frame_id: {frame_id} | frame_time: {frame_time} | frame_parts: {frame_parts} |-----| before_frame_id: {before_frame_id} | before_frame_time: {before_frame_time}| before_frame_parts: {before_frame_parts}")
+                #print(f"frame_id: {frame_id} | frame_time: {frame_time} | frame_parts: {frame_parts} |-----| before_frame_id: {before_frame_id} | before_frame_time: {before_frame_time}| before_frame_parts: {before_frame_parts}")
 
             if save_subass_frame_imgs or debug:
                 # load frame image
@@ -364,17 +364,17 @@ def find_keyframes(cat_name_video_to_subass_frames, cat_name_video_to_before_sub
     for (cat, name, video_url) in tqdm(cat_name_video_to_subass_frames, desc="Checking frames for each video"):
 
         if verbose:
-            print("=" * 50)
-            print("Category: ", cat)
-            print("Name: ", name)
-            print("Video URL: ", video_url)
+            #print("=" * 50)
+            #print("Category: ", cat)
+            #print("Name: ", name)
+            #print("Video URL: ", video_url)
 
         keyframes = []
         subass_frames = cat_name_video_to_subass_frames[(cat, name, video_url)]
         before_subass_frames = cat_name_video_to_before_subass_frames[(cat, name, video_url)]
 
         if verbose:
-            print("+" * 20, "\nsubass_frames: ")
+            #print("+" * 20, "\nsubass_frames: ")
         for frame_d, before_frame_d in zip(subass_frames, before_subass_frames):
 
             # e.g., frame_id: 4930 | frame_time: 164.34 | frame_parts: ['1', '3,8'] |-----| before_frame_id: 4898 | before_frame_time: 163.29| before_frame_parts: ['1', '3', '8']
@@ -390,7 +390,7 @@ def find_keyframes(cat_name_video_to_subass_frames, cat_name_video_to_before_sub
             before_frame_parts = before_frame_d['parts']
 
             if verbose:
-                print(f"frame_id: {frame_d['frame_id']} | frame_time: {frame_d['frame_time']} | frame_parts: {frame_parts} |-----| before_frame_id: {before_frame_d['frame_id']} | before_frame_time: {before_frame_d['frame_time']}| before_frame_parts: {before_frame_parts}")
+                #print(f"frame_id: {frame_d['frame_id']} | frame_time: {frame_d['frame_time']} | frame_parts: {frame_parts} |-----| before_frame_id: {before_frame_d['frame_id']} | before_frame_time: {before_frame_d['frame_time']}| before_frame_parts: {before_frame_parts}")
 
             # there are cases like ['0,2,3,5,6,7,1']
             frame_parts = canonicalize_subassembly_parts(frame_parts)
@@ -419,7 +419,7 @@ def find_keyframes(cat_name_video_to_subass_frames, cat_name_video_to_before_sub
                 keyframes.append(keyframe)
 
         if verbose:
-            print("+" * 20, "\nkeyframes: ")
+            #print("+" * 20, "\nkeyframes: ")
 
         keyframe_imgs = []
         keyframe_names = []
@@ -428,7 +428,7 @@ def find_keyframes(cat_name_video_to_subass_frames, cat_name_video_to_before_sub
             keyframe_d = keyframe['keyframe_d']
             assembled_subass = keyframe['assembled_subass']
             if verbose:
-                print(f"frame_id: {next_frame_d['frame_id']} | frame_time: {next_frame_d['frame_time']} | frame_parts: {next_frame_d['parts']} |-----| keyframe_id: {keyframe_d['frame_id']} | keyframe_time: {keyframe_d['frame_time']}| keyframe_parts: {keyframe_d['parts']} | assembled_subass: {assembled_subass}")
+                #print(f"frame_id: {next_frame_d['frame_id']} | frame_time: {next_frame_d['frame_time']} | frame_parts: {next_frame_d['parts']} |-----| keyframe_id: {keyframe_d['frame_id']} | keyframe_time: {keyframe_d['frame_time']}| keyframe_parts: {keyframe_d['parts']} | assembled_subass: {assembled_subass}")
 
             if save_keyframe_imgs or debug:
                 video = load_video(video_dir, cat, name, video_url)
