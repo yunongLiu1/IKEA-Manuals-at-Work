@@ -3,6 +3,8 @@
 
 IKEA Manuals at Work: 4D Grounding of Assembly Instructions on Internet Videos
 
+[Website](https://yunongliu1.github.io/ikea-video-manual/)
+
 ![Dataset Visualization](./assets/dataset_visualization.gif)
 
 ## Installation
