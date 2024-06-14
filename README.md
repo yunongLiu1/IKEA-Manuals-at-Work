@@ -3,6 +3,8 @@
 
 IKEA Manuals at Work: 4D Grounding of Assembly Instructions on Internet Videos
 
+![Dataset Visualization](./assets/dataset_visualization.gif)
+
 ## Installation
 
 1. Create a new conda environment:
