@@ -22,11 +22,12 @@ def hex_to_rgb(hex_color):
     return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
 colors_hex = [
-    '#5A9BD5', '#FF6F61', '#E5C07B', '#77B77A', '#A67EB1', '#FF89B6', '#FFB07B',
-    '#C5A3CF', '#FFA8B6', '#A3C9E0', '#FFC89B', '#E58B8B',
-    '#A3B8D3', '#D4C3E8', '#66B2AA', '#E4A878', '#6882A4', '#D1AEDD', '#E8A4A6',
-    '#A5DAD7', '#C6424A', '#E1D1F4', '#FFD8DC', '#F4D49B', '#8394A8'
-]
+        '#5A9BD5', '#FF6F61', '#77B77A', '#A67EB1', '#FF89B6', '#FFB07B',
+        '#C5A3CF', '#FFA8B6', '#A3C9E0', '#FFC89B', '#E58B8B',
+        '#A3B8D3', '#D4C3E8', '#66B2AA', '#E4A878', '#6882A4', '#D1AEDD', '#E8A4A6',
+        '#A5DAD7', '#C6424A', '#E1D1F4', '#FFD8DC', '#F4D49B', '#8394A8'
+    ]
+
 colors = [hex_to_rgb(color) for color in colors_hex]
 
 
@@ -122,7 +123,7 @@ class KeyframeDataset(torch.utils.data.Dataset):
                 frame_data['name'] = name
                 frame_data['video_url'] = video_url
                 frame_data['video_id'] = video_id
-                frame_data['frame_parts'] = frame_parts
+                frame_data['frame_parts'] = frame_d['parts']
                 frame_data['frame_id'] = frame_id
                 frame_data['is_keyframe'] = is_keyframe
                 frame_data['is_frame_after_keyframe'] = is_frame_after_keyframe
@@ -315,6 +316,7 @@ class KeyframeDataset(torch.utils.data.Dataset):
                 for i, mask in enumerate(decoded_masks):
                     color_id = min([int(p) for p in frame_data['frame_parts'][i].split(',')])
                     color = colors[color_id % len(colors)]
+                    print(f'Color: {color_id} for part {frame_data["frame_parts"][i]}')
                     mask = cv2.resize(mask, (img.shape[1], img.shape[0]))  # Resize the mask to match the image dimensions
                     mask_indices = mask == 255  # Get the indices where the mask is present
                     if mask_indices.sum() == 0:
@@ -372,6 +374,7 @@ class KeyframeDataset(torch.utils.data.Dataset):
                     
                     color_id = min([int(p) for p in frame_data['manual']['parts'][i].split(',')])
                     color = colors[color_id % len(colors)]
+                    print(f'Color: {color_id} for part {frame_data["frame_parts"][i]}')
                     mask = cv2.resize(mask, (pdf_overlay_img.shape[1], pdf_overlay_img.shape[0]))
                     mask_indices = mask == 255
                     if mask_indices.sum() == 0:
@@ -433,8 +436,10 @@ class KeyframeDataset(torch.utils.data.Dataset):
 
             for m, mesh in enumerate(meshes.copy()):
                 mesh_transformed = mesh.copy()
+                print('mesh: ', frame_data['frame_parts'][m])
+                print('extrinsic: ', frame_data['extrinsics'][m])
                 mesh_transformed.apply_transform(tra.euler_matrix(0, 0, np.pi) @ frame_data['extrinsics'][m])
-                mesh_transformed.apply_transform(tra.euler_matrix(0, np.pi,0))
+                mesh_transformed.apply_transform(tra.euler_matrix(0,np.pi,0))
                 # mesh.apply_transform(tra.euler_matrix(0, np.pi,0))
                 meshes_transformed.append(mesh_transformed.copy())
 
