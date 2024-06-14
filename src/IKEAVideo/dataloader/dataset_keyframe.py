@@ -11,6 +11,8 @@ import numpy as np
 import cv2
 from PIL import Image
 import matplotlib.pyplot as plt
+from PIL import Image, ImageDraw, ImageFont
+
 
 from IKEAVideo.dataloader.assembly_video import load_annotation, load_video, load_frame, canonicalize_subassembly_parts, find_keyframes, find_subass_frames, load_pdf_page, decode_mask
 import IKEAVideo.utils.transformations as tra
@@ -253,6 +255,8 @@ class KeyframeDataset(torch.utils.data.Dataset):
                 img = load_frame(video, frame_time)
 
             if self.debug:
+                os.makedirs('../deubg', exist_ok=True)
+                viz_imgs = []
                 print(f"Category: {category}")
                 print(f"Name: {name}")
                 print(f"Video URL: {video_url}")
@@ -360,7 +364,7 @@ class KeyframeDataset(torch.utils.data.Dataset):
                     decoded_masks.append(mask*255)
 
                 # Create a copy of the original image to overlay the masks
-                overlay_img = frame_data['pdf_img'].copy()
+                pdf_overlay_img = frame_data['pdf_img'].copy()
                 
 
                 # Iterate over the decoded masks and overlay them on the image
@@ -368,22 +372,41 @@ class KeyframeDataset(torch.utils.data.Dataset):
                     
                     color_id = min([int(p) for p in frame_data['manual']['parts'][i].split(',')])
                     color = colors[color_id % len(colors)]
-                    mask = cv2.resize(mask, (overlay_img.shape[1], overlay_img.shape[0]))
+                    mask = cv2.resize(mask, (pdf_overlay_img.shape[1], pdf_overlay_img.shape[0]))
                     mask_indices = mask == 255
                     if mask_indices.sum() == 0:
                         print(f'Skipping mask {i} as it is empty')
                         continue
-                    overlay_img[mask_indices] = overlay_img[mask_indices] * 0.5 + np.array(color) * 0.5
+                    pdf_overlay_img[mask_indices] = pdf_overlay_img[mask_indices] * 0.5 + np.array(color) * 0.5
 
                 # Display the image with overlaid masks
                 plt.figure(figsize=(8, 6))
-                plt.imshow(overlay_img)
+                plt.imshow(pdf_overlay_img)
                 plt.axis('off')
                 plt.show()
 
                 print(f'IAW Metadata:')
                 for key, value in frame_data['iaw_metadata'].items():
                     print(f'{key}: {value}')
+                
+                viz_imgs = [cv2.cvtColor(img, cv2.COLOR_BGR2RGB), overlay_img, pdf_overlay_img]
+                # Create a single image with the three images side by side
+                img_width = max([img.shape[1] for img in viz_imgs])
+                img_height = max([img.shape[0] for img in viz_imgs])
+                combined_img = np.zeros((img_height, img_width * 3, 3), dtype=np.uint8)
+
+                # viz_imgs = [cv2.resize(img, (img_width, img_height)) for img in viz_imgs]
+                # Pad the images to have the same height and width
+                viz_imgs = [np.pad(img, ((0, img_height - img.shape[0]), (0, img_width - img.shape[1]), (0, 0)), mode='constant', constant_values=255) for img in viz_imgs]
+
+
+                for i, img in enumerate(viz_imgs):
+                    combined_img[:, i * img_width:(i + 1) * img_width] = img
+                # Save the combined image
+                os.makedirs('../debug', exist_ok=True)
+                combined_img_path = os.path.join('../debug', f'viz_{frame_data["frame_id"]}.jpg')
+                Image.fromarray(combined_img).save(combined_img_path)
+
 
 
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -409,10 +432,11 @@ class KeyframeDataset(torch.utils.data.Dataset):
             meshes_transformed = []
 
             for m, mesh in enumerate(meshes.copy()):
-                mesh.apply_transform(tra.euler_matrix(0, 0, np.pi) @ frame_data['extrinsics'][m])
-                mesh.apply_transform(tra.euler_matrix(0, np.pi,0))
+                mesh_transformed = mesh.copy()
+                mesh_transformed.apply_transform(tra.euler_matrix(0, 0, np.pi) @ frame_data['extrinsics'][m])
+                mesh_transformed.apply_transform(tra.euler_matrix(0, np.pi,0))
                 # mesh.apply_transform(tra.euler_matrix(0, np.pi,0))
-                meshes_transformed.append(mesh.copy())
+                meshes_transformed.append(mesh_transformed.copy())
 
 
             video_frames[f]['meshes'] = meshes_transformed
@@ -420,8 +444,9 @@ class KeyframeDataset(torch.utils.data.Dataset):
             manual_meshes = self.get_obj_meshes(category, name, frame_data['manual']['parts'])
             manual_meshes_transformed = []
             for m, mesh in enumerate(manual_meshes.copy()):
-                mesh.apply_transform(frame_data['manual']['extrinsics'][m])
-                manual_meshes_transformed.append(mesh.copy())
+                mesh_transformed = mesh.copy()
+                mesh_transformed.apply_transform(frame_data['manual']['extrinsics'][m])
+                manual_meshes_transformed.append(mesh_transformed.copy())
 
             video_frames[f]['manual_meshes'] = manual_meshes_transformed
 
