@@ -78,18 +78,6 @@ For more information about the dataset, please refer to the [datasheet](https://
   - Open the [`notebooks/data_viz.ipynb`](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/notebooks/data_viz.ipynb) notebook.
   - Follow the instructions in the notebook to load and visualize the data.
 
-## Citation
-
-If you use this dataset in your research, please cite the following paper:
-
-```bibtex
-@inproceedings{liu2024ikea,
-  title={IKEA Manuals at Work: 4D Grounding of Assembly Instructions on Internet Videos},
-  author={Liu, Yunong and Liu, Weiyu and Khanna, Shubh and Eyzaguirre, Cristobal and Li, Manling and Niebles, Juan Carlos and Ravi, Vineeth and Mishra, Saumitra and Wu, Jiajun},
-  booktitle={Advances in Neural Information Processing Systems},
-  year={2024}
-}
-```
 
 ## Contact
 
