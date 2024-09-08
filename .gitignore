@@ -1,2 +1,11 @@
 .history/*
 .DS_Store
+debug/*
+*.glb
+notebooks/viz_after_refine/*
+notebooks/viz_before_refine/*
+notebooks/mammut_2.json
+src/IKEAVideo/dataloader/assembly_video_old.py
+*.pyc
+src/IKEAVideo/dataloader/dataset_keyframe_old.py
+notebooks/data_viz_website.ipynb
