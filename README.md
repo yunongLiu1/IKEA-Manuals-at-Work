@@ -95,7 +95,7 @@ If you find this dataset useful for your research, please cite:
   author={Yunong Liu and Cristobal Eyzaguirre and Manling Li and Shubh Khanna and Juan Carlos Niebles and Vineeth Ravi and Saumitra Mishra and Weiyu Liu and Jiajun Wu},
   booktitle={The Thirty-eight Conference on Neural Information Processing Systems Datasets and Benchmarks Track},
   year={2024},
-  url={https://openreview.net/forum?id=EXwf5iE98P}
+  url={https://openreview.net/pdf?id=EXwf5iE98P}
   }
 ```
 
