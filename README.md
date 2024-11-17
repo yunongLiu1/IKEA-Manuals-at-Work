@@ -89,13 +89,14 @@ This dataset is released under the CC-BY-4.0 license.
 ## Citation
 If you find this dataset useful for your research, please cite:
 ```bibtex
-@inproceedings{liu2024ikea,
-   title={IKEA Manuals at Work: 4D Grounding of Assembly Instructions on Internet Videos},
-   author={Liu, Yunong and Eyzaguirre, Cristobal and Li, Manling and Khanna, Shubh and 
-           Niebles, Juan Carlos and Ravi, Vineeth and Mishra, Saumitra and Liu, Weiyu* and Wu, Jiajun*},
-   booktitle={NeurIPS},
-   year={2024}
-}
+  @inproceedings{
+  liu2024ikea,
+  title={{IKEA} Manuals at Work: 4D Grounding of Assembly Instructions on Internet Videos},
+  author={Yunong Liu and Cristobal Eyzaguirre and Manling Li and Shubh Khanna and Juan Carlos Niebles and Vineeth Ravi and Saumitra Mishra and Weiyu Liu and Jiajun Wu},
+  booktitle={The Thirty-eight Conference on Neural Information Processing Systems Datasets and Benchmarks Track},
+  year={2024},
+  url={https://openreview.net/forum?id=EXwf5iE98P}
+  }
 ```
 
 ## Contact
