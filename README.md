@@ -66,7 +66,7 @@ For detailed information about the dataset, please refer to our [datasheet](http
 ### Dataset Setup
 1. **Download Required Files**:
   - Annotation file: [`data/data.json`](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/data/data.json)
-  - Assembly videos: [Google Drive](https://drive.google.com/drive/folders/1x0mzse3WJUXSJ9MfeX1kvmApIfWsCGZw)
+  - Assembly videos: [Stanford Digital Repository](https://purl.stanford.edu/sg200ps4374)
   - Clone the repo to obtain other resources (e.g. 3D models, manual images)
   - Place downloads in their respective directories as shown in Dataset Structure
 
