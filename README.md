@@ -1,85 +1,104 @@
+<div align="center">
 
-# IKEA-Manuals-at-Work
+# IKEA Manuals at Work
+### 4D Grounding of Assembly Instructions on Internet Videos
+*NeurIPS 2024 Datasets and Benchmarks*
 
-IKEA Manuals at Work: 4D Grounding of Assembly Instructions on Internet Videos
+[Yunong Liu](http://yunongliu.com/)<sup>1</sup>, [Cristobal Eyzaguirre](https://ceyzaguirre4.github.io)<sup>1</sup>, [Manling Li](https://limanling.github.io)<sup>1</sup>, Shubh Khanna<sup>1</sup>, [Juan Carlos Niebles](https://www.niebles.net)<sup>1</sup>, Vineeth Ravi<sup>2</sup>, Saumitra Mishra<sup>2</sup>, [Weiyu Liu](http://weiyuliu.com)<sup>1*</sup>, [Jiajun Wu](https://jiajunwu.com)<sup>1*</sup>
 
-[Website](https://yunongliu1.github.io/ikea-video-manual/)
+<sup>1</sup>Stanford University &nbsp;&nbsp; <sup>2</sup>J.P. Morgan AI Research  
+<sup>*</sup>Equal advising
 
-![Dataset Visualization](./assets/dataset_visualization.gif)
+[[Project Website]](https://yunongliu1.github.io/ikea-video-manual/) [[Paper]](https://yunongliu1.github.io/ikea-video-manual/) [[Dataset Setup Guide]](#dataset-setup) [[Notebook]](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/notebooks/data_viz.ipynb)
 
-## Installation
+<img src="./assets/dataset_visualization.gif" width="600px"/>
+</div>
 
-1. Create a new conda environment:
-   ```bash
-   conda create -n IKEAVideo python=3.8
-   ```
+## Overview
+The IKEA-Manuals-at-Work dataset provides detailed annotations for aligning 3D models, instructional manuals, and real-world assembly videos. This is the first dataset to provide 4D grounding of assembly instructions on Internet videos, offering high-quality, spatial-temporal alignments between assembly instructions, 3D models, and real-world internet videos.
 
-2. Activate the environment:
-   ```bash
-   conda activate IKEAVideo
-   ```
+### Key Features
+- 🪑 36 furniture models from 6 categories
+- 🎥 98 assembly videos from the Internet
+- 🔄 Dense spatio-temporal alignments between instructions and videos
+- 📊 Rich annotations including part segmentation, 6D poses, and temporal alignments
 
-3. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Getting Started
 
-4. Set the `PYTHONPATH` environment variable to include the `src` directory:
-   ```bash
-   export PYTHONPATH="./src:$PYTHONPATH"
-   ```
+### Installation
+```bash
+# Create and activate conda environment
+conda create -n IKEAVideo python=3.8
+conda activate IKEAVideo
 
-## Data
+# Install dependencies
+pip install -r requirements.txt
 
-- [Annotations](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/data/data.json)
+# Set PYTHONPATH
+export PYTHONPATH="./src:$PYTHONPATH"
+```
 
-## Dataset
+### Dataset Structure
+```
+data/
+├── data.json           # Main annotation file
+├── parts/             # 3D model files
+├── manual_img/        # Instruction manual images
+├── pdfs/              # Original PDF manuals
+└── videos/            # Assembly videos
+```
 
-The IKEA-Manuals-at-Work dataset provides detailed annotations for aligning 3D models, instructional manuals, and real-world assembly videos. It includes:
+### Dataset Contents
+The dataset includes:
+- **3D Models**: Detailed 3D models of furniture parts
+- **Instruction Manuals**: Step-by-step assembly instructions
+- **Assembly Videos**: Real-world assembly videos from the Internet
+- **Rich Annotations**:
+   - ⏱️ Temporal step alignments
+   - 🔄 Temporal substep alignments
+   - 🎯 2D-3D part correspondences
+   - 🎨 Part segmentations
+   - 📐 Part 6D poses
+   - 📷 Estimated camera parameters
 
-- 3D models of furniture parts
-- Instructional manuals
-- Assembly videos from the Internet
-- Annotations:
-  - Temporal step alignments
-  - Temporal substep alignments
-  - 2D-3D part correspondences
-  - Part segmentations
-  - Part 6D poses
-  - Estimated camera parameters
+For detailed information about the dataset, please refer to our [datasheet](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/datasheet.md).
 
-For more information about the dataset, please refer to the [datasheet](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/datasheet.md).
-
-<!-- ## Code Structure
-
-- `src/`: Contains the source code for data loading, processing, and visualization.
-  - `IKEAVideo/dataloader/`: Data loading utilities.
-  - `IKEAVideo/utils/`: Utility functions for transformations and visualization.
-- `data/`: Contains the annotation file and other data files.
-- `notebooks/`: Jupyter notebooks for data exploration and visualization.
-  - `data_viz.ipynb`: Notebook for loading and visualizing data from the dataset.
-- `requirements.txt`: Lists the required Python dependencies.
-- `README.md`: This file, providing an overview of the repository.
-- `datasheet.md`: Detailed information about the dataset. -->
-
-## Usage
-
-1. Install the required dependencies and set up the environment as described in the [Installation](#installation) section.
-
-2. Download the dataset files and place them in the appropriate directories:
+### Dataset Setup
+1. **Download Required Files**:
   - Annotation file: [`data/data.json`](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/data/data.json)
-  - 3D models: `data/parts/`
-  - Instructional manuals: `data/manual_img/` and `data/pdfs/` 
+  - Assembly videos: [Google Drive](https://drive.google.com/drive/folders/1x0mzse3WJUXSJ9MfeX1kvmApIfWsCGZw)
+  - Clone the repo to obtain other resources (e.g. 3D models, manual images)
+  - Place downloads in their respective directories as shown in Dataset Structure
 
-3. Download the assembly videos from the provided Google Drive link: [IKEA Assembly Videos](https://drive.google.com/drive/folders/1x0mzse3WJUXSJ9MfeX1kvmApIfWsCGZw)
-  - Download the videos from the Google Drive link and place them in the `data/videos/` directory.
+2. **Explore the Dataset**:
+  Check our tutorial notebook: [`notebooks/data_viz.ipynb`](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/notebooks/data_viz.ipynb)
 
-4. Explore the dataset using the provided Jupyter notebook:
-  - Open the [`notebooks/data_viz.ipynb`](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/notebooks/data_viz.ipynb) notebook.
-  - Follow the instructions in the notebook to load and visualize the data.
 
+
+## Applications
+The dataset supports various research directions:
+- 🔍 Assembly plan generation
+- 🎯 Part-conditioned segmentation
+- 📐 Part-conditioned pose estimation
+- 🎥 Video object segmentation
+- 🛠️ Shape assembly with instruction videos
+
+## License
+This dataset is released under the CC-BY-4.0 license.
+
+## Citation
+If you find this dataset useful for your research, please cite:
+```bibtex
+@inproceedings{liu2024ikea,
+   title={IKEA Manuals at Work: 4D Grounding of Assembly Instructions on Internet Videos},
+   author={Liu, Yunong and Eyzaguirre, Cristobal and Li, Manling and Khanna, Shubh and 
+           Niebles, Juan Carlos and Ravi, Vineeth and Mishra, Saumitra and Liu, Weiyu* and Wu, Jiajun*},
+   booktitle={NeurIPS},
+   year={2024}
+}
+```
 
 ## Contact
-
-For questions or feedback, please open an issue on the [GitHub repository](https://github.com/yunongLiu1/IKEA-Manuals-at-Work) or contact the authors directly.
-
+For questions and feedback:
+- 📮 Open an issue on this [GitHub repository](https://github.com/yunongLiu1/IKEA-Manuals-at-Work)
+- 📧 Email Yunong Liu
