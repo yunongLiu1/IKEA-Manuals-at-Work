@@ -9,7 +9,7 @@
 <sup>1</sup>Stanford University &nbsp;&nbsp; <sup>2</sup>J.P. Morgan AI Research  
 <sup>*</sup>Equal advising
 
-[[Project Website]](https://yunongliu1.github.io/ikea-video-manual/) [[Paper]](https://yunongliu1.github.io/ikea-video-manual/) [[Dataset Setup Guide]](#dataset-setup) [[Notebook]](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/notebooks/data_viz.ipynb)
+[[Project Website]](https://yunongliu1.github.io/ikea-video-manual/) [[Paper]](https://openreview.net/pdf?id=EXwf5iE98P) [[Dataset Setup Guide]](#dataset-setup) [[Notebook]](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/notebooks/data_viz.ipynb)
 
 <img src="./assets/dataset_visualization.gif" width="600px"/>
 </div>
