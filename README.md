@@ -94,7 +94,7 @@ If you find this dataset useful for your research, please cite:
   title={{IKEA} Manuals at Work: 4D Grounding of Assembly Instructions on Internet Videos},
   author={Yunong Liu and Cristobal Eyzaguirre and Manling Li and Shubh Khanna and Juan Carlos Niebles and Vineeth Ravi and Saumitra Mishra and Weiyu Liu and Jiajun Wu},
   booktitle={The Thirty-eight Conference on Neural Information Processing Systems Datasets and Benchmarks Track},
-  year={2024},
+  year={2024}
   }
 ```
 
