@@ -73,7 +73,7 @@ def generate_combinations(elements):
     return all_combinations
 
 
-def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
+def load_annotation(annotation_file, num_of_data=None, sort_frames_by_time=True, verbose=False):
     """
 
     :param annotation_file:
@@ -84,10 +84,14 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
     # load json from file
     with open(annotation_file, 'r') as f:
         data = json.load(f)
+    
+    if num_of_data is not None:
+        data = data[:num_of_data]
 
     cat_name_video_to_frames = defaultdict(list)
     frame_count = 0
-    for furniture_d in tqdm(data[:1], desc="Loading annotation"):
+    for furniture_d in tqdm(data[:], desc="Loading annotation"):
+        # furniture_d.keys() :'name', 'category', 'manual_id', 'furniture_ids', 'variants', 'pipUrls', 'mainImageUrls', 'manualUrls', 'videoUrls', 'source', 'steps'
         name = furniture_d['name']
         category = furniture_d['category']
         manual_id = furniture_d['manual_id']
@@ -99,20 +103,14 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
         video_urls = furniture_d['videoUrls']
         # source = furniture_d['source']
         steps = furniture_d['steps']
-        #print(furniture_d.keys())
-        # 'name', 'category', 'manual_id', 'furniture_ids', 'variants', 'pipUrls', 'mainImageUrls', 'manualUrls', 'videoUrls', 'source', 'steps'
-        #print(name, category, manual_id, furniture_ids, variants, pip_urls, image_urls, manual_urls, video_urls)
 
         for step_d in steps:
             step_id = step_d['step_id']
             manual_d = step_d['manual']
             step_videos_d = step_d['video']
-            #print(manual_d.keys())
-            # for manual_key in manual_d.keys():
-            #     #print(manual_key, manual_d[manual_key])
 
             for step_video_d in step_videos_d:
-                #print(step_video_d.keys())
+
                 video_url = step_video_d['video_id']
                 step_start = step_video_d['step_start']
                 step_end = step_video_d['step_end']
@@ -121,7 +119,7 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
                 substeps = step_video_d['substeps']
 
                 for substep_d in substeps:
-                    #print(substep_d.keys())
+
                     substep_id = substep_d['substep_id']
                     substep_start = substep_d['substep_start']
                     substep_end = substep_d['substep_end']
@@ -131,15 +129,14 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
                 frames = step_video_d['frames']
                 video_intrinsics = step_video_d['video_intrinsics']
                 iaw_meta = step_video_d['iaw_metadata']
-                #print(f'Video intrinsics: {video_intrinsics}')
+
                 all_durations = []
                 for video_intrinsics in video_intrinsics.values():
-                    #print(f'Video intrinsics: {video_intrinsics}')
                     for duration in video_intrinsics['durations']:
                         all_durations.append(duration)
 
                 
-                #print(f'All durations: {all_durations}')
+
 
                 for f, frame_d in enumerate(frames):
                     frame_id = frame_d['frame_id']
@@ -191,9 +188,7 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
                             frames[f]['substep_end'] = substep_end
 
                     
-                    # frames[f]['substep_id'] = substep_id
-                    # frames[f]['substep_start'] = substep_start
-                    # frames[f]['substep_end'] = substep_end
+
 
                     frames[f]['fps'] = fps
 
@@ -202,7 +197,7 @@ def load_annotation(annotation_file, sort_frames_by_time=True, verbose=False):
                     for num_of_duration, duration in enumerate(all_durations):
                         if frame_time >= duration[0] and frame_time <= duration[1]:
                             frames[f]['num_of_duration'] = num_of_duration
-                            #print(f'Frame {frame_id} is in duration {num_of_duration}')
+
                             break
                     
                     frames[f]['iaw_metadata'] = iaw_meta
