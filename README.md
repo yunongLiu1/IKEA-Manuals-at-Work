@@ -9,7 +9,7 @@
 <sup>1</sup>Stanford University &nbsp;&nbsp; <sup>2</sup>J.P. Morgan AI Research  
 <sup>*</sup>Equal advising
 
-[[Project Website]](https://yunongliu1.github.io/ikea-video-manual/) [[Paper]](https://openreview.net/pdf?id=EXwf5iE98P) [[Dataset Setup Guide]](#dataset-setup) [[Notebook]](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/notebooks/data_viz.ipynb)
+[[Project Website]](https://yunongliu1.github.io/ikea-video-manual/) [[Paper]](https://arxiv.org/pdf/2411.11409) [[Dataset Setup Guide]](#dataset-setup) [[Notebook]](https://github.com/yunongLiu1/IKEA-Manuals-at-Work/blob/main/notebooks/data_viz.ipynb)
 
 <img src="./assets/dataset_visualization.gif" width="600px"/>
 </div>
@@ -95,7 +95,6 @@ If you find this dataset useful for your research, please cite:
   author={Yunong Liu and Cristobal Eyzaguirre and Manling Li and Shubh Khanna and Juan Carlos Niebles and Vineeth Ravi and Saumitra Mishra and Weiyu Liu and Jiajun Wu},
   booktitle={The Thirty-eight Conference on Neural Information Processing Systems Datasets and Benchmarks Track},
   year={2024},
-  url={https://openreview.net/pdf?id=EXwf5iE98P}
   }
 ```
 
