@@ -1,0 +1,453 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  /* background-color: #f0f0f0; */
+  display: flex;
+  flex-direction: column;
+  background-color:  #A5D6A7 ;
+}
+
+#container {
+  position: relative;
+  /* width: 100%; */
+  flex: 0.3;
+  /* height: 50%; */
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+#sceneCanvas, #imageCanvas {
+  position: absolute;
+  top: 0;
+  left: 25%;
+
+}
+
+#imageCanvas {
+  pointer-events: none;
+}
+/******************** Slider ************************/
+.slider-group {
+  margin: 5px;
+}
+
+.slider-group div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.slider-group label {
+  margin-right: 10px;
+  width: 30px;
+}
+
+.slider-group input[type="range"] {
+  flex: 1;
+  width: 50px; /* Adjust the width value to make the sliders longer */
+}
+
+.slider-group span {
+  margin-left: 10px;
+  width: 50px;
+}
+
+#rotation, #translation, #reload, #coplanarControls {
+  margin: 5px;
+}
+#rotation .slider-group:nth-child(1) input[type="range"]::-webkit-slider-thumb {
+  background: red;
+}
+
+#rotation .slider-group:nth-child(2) input[type="range"]::-webkit-slider-thumb {
+  background: green;
+}
+
+#rotation .slider-group:nth-child(3) input[type="range"]::-webkit-slider-thumb {
+  background: blue;
+}
+
+#translation .slider-group:nth-child(1) input[type="range"]::-webkit-slider-thumb {
+  background: red;
+}
+
+#translation .slider-group:nth-child(2) input[type="range"]::-webkit-slider-thumb {
+  background: green;
+}
+
+#translation .slider-group:nth-child(3) input[type="range"]::-webkit-slider-thumb {
+  background: blue;
+}
+.quick-buttons button.red {
+  background-color: #ff0000;
+  color: white;
+}
+
+
+
+
+
+.quick-buttons button.red:hover {
+  background-color: #ff4f4f;
+}
+
+.quick-buttons button.green {
+  background-color: #077b07;
+  color: white;
+}
+
+.quick-buttons button.green:hover {
+  background-color: #73a839;
+}
+
+.quick-buttons button.blue {
+  background-color: #0a0a8c;
+  color: white;
+}
+
+.quick-buttons button.blue:hover {
+  background-color: #29b6f6;
+}
+/******************** Buttons ************************/
+
+
+#selectionContainer {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  height: 35%;
+  
+  background-color: #B0BEC5;
+  overflow-y: auto;
+  position: absolute;
+  right: 75%;
+}
+
+#selectionControls {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 100%;
+  overflow-y: auto;
+  position: absolute;
+  left: 10%;
+}
+
+.selection-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.selection-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.selection-item h3 {
+  margin: 0;
+}
+
+.selection-item select,
+.selection-item input {
+  width: 100%;
+}
+#opacitySlider {
+  width: 100%;
+}
+
+/* ****************************** Mask **************** */
+#maskContainer {
+  display: flex;
+  width : 25%;
+  height: 60%;
+  flex-direction: column;
+  justify-content: center;
+
+  background-color: #607D8B;
+  overflow-y: auto;
+  position: absolute;
+  right : 75%;
+  top : 35%;
+  bottom: 0%;
+}
+#maskImages {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 80%;
+  overflow-y: auto;
+  position: absolute;
+  left: 10%;
+}
+
+.mask-image {
+  width: 100px;
+  height: 100px;
+  margin: 2px;
+  border: 5px solid transparent;
+}
+
+.mask-image.selected {
+  border-color: red;
+}
+#mseScoreContainer {
+  display: flex;
+  width : 25%;
+  height: 10%;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  /* padding: 10px; */
+  background-color: #607D8B;
+  overflow-y: auto;
+  /* justify-content: center; */
+  position: absolute;
+  /* top : 30%; */
+  right : 75%;
+  top : 90%;
+  bottom: 0%;
+  /* left: 25%; */
+}
+
+/* ********************************* Control Buttons *****************************  */
+#singlecontrols {
+  display: flex;
+  width : 25%;
+  height: 30%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color:  #9cb7c4;
+  overflow-y: auto;
+  justify-content: center;
+  position: absolute;
+  right : 0%;
+  top : 70%;
+  bottom: 0%;
+  left: 35%;
+}
+#allcontrols {
+  display: flex;
+  width : 25%;
+  height: 30%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color:  #9cb7c4;
+  overflow-y: auto;
+  justify-content: center;
+  position: absolute;
+  right : 0%;
+  top : 70%;
+  bottom: 0%;
+  left: 60%;
+}
+
+#singlecontrols input{
+  width: 6%;
+  font-size: 8px;
+  /* margin: 5px; */
+}
+#allcontrols input{
+  width: 6%;
+  font-size: 8px;
+  /* margin: 5px; */
+}
+
+/**********************  */
+#progressTextarea {
+  display: flex;
+  width: 15%;
+  height: 30%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fbfeff;
+  overflow-y: auto;
+  position: absolute;
+  top: 70%;
+  right: 0%;
+}
+
+/**********************  */
+
+#ResetContainerAll {
+  display: flex;
+  width: 10%;
+  height: 20%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #96b4c3;
+  overflow-y: auto;
+  /* margin-top: 10px; */
+  position: absolute;
+  top: 70%;
+  right: 65%;
+}
+
+#saveContainerAll {
+  display: flex;
+  width: 10%;
+  height: 10%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #B0BEC5;
+  overflow-y: auto;
+  /* margin-top: 10px; */
+  position: absolute;
+  top: 90%;
+  right: 65%;
+}
+
+#saveContainer {
+  width: 90%;
+  height: 90%;
+}
+
+#saveContainer button {
+  width: 100%;
+
+  /* margin-bottom: 10px; */
+  font-size: 8px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 20px;
+  background-color: #e0e0e0;
+  position: relative;
+  /* margin-bottom: 5px; */
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  background-color: #4CAF50;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width 0.5s ease;
+}
+
+.progress-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  color: #000000;
+}
+
+.progress-bar-image {
+  width: 0;
+  height: 100%;
+  background-color: #4CAF50;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width 0.5s ease;
+}
+.progress-number-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  color: #000000;
+}
+
+
+
+h3 {
+  margin: 0 0 5px;
+  font-size: 11px;
+  font-weight: bold;
+}
+h4 {
+  margin: 0 0 5px;
+  font-size: 8px;
+  font-weight: italic;
+}
+
+button {
+  padding: 3px 6px;
+  font-size: 9px;
+  background-color: #45a049;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  background-color: #3e8e41;
+}
+
+
+#coloredButtons {
+display: flex;
+justify-content: center;
+/* margin-top: 10px; */
+}
+
+#coloredButtons button {
+/* margin: 0 5px; */
+font-size: 8px;
+padding: 4px 8px;
+color: white;
+border: none;
+border-radius: 2px;
+cursor: pointer;
+transition: background-color 0.3s;
+}
+
+#coloredButtons .red {
+background-color: #ff0000;
+}
+
+#coloredButtons .green {
+background-color: #077b07;
+}
+
+#coloredButtons .blue {
+background-color: #0a0a8c;
+}
+
+
+
+#coloredButtons button:hover {
+opacity: 0.1;
+}
+
+#coloredButtons button:active {
+opacity: 0.1;
+}
+
+
+
+
+
+
+label {
+  font-size: 9px;
+}
+
+select {
+  font-size: 9px;
+  padding: 3px 6px;
+  margin-left: 5px;
+}
+
+
+
+

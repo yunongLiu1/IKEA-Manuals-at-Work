@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>3D Pose Reannotation Interface</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <script type="module" src="/main.js"></script>
+</head>
+<body>
+  <div id="allContainer">
+    <div id="container">
+      <canvas id="sceneCanvas"></canvas>
+      <canvas id="imageCanvas"></canvas>
+    </div>
+    <div id="selectionContainer">
+      <div id="selectionControls">
+        <h3>Select Video Frame</h3>
+        <div class="selection-row">
+          <div class="selection-item">
+            <h3>User ID:</h3>
+            <select id="userIdDropdown"></select>
+          </div>
+        </div>
+        <div class="selection-row">
+          <div class="selection-item">
+            <h3>Category:</h3>
+            <select id="categoryDropdown"></select>
+          </div>
+          <div class="selection-item">
+            <h3>Name:</h3>
+            <select id="nameDropdown"></select>
+          </div>
+        </div>
+        <div class="selection-row">
+          <div class="selection-item">
+            <h3>Video ID:</h3>
+            <select id="videoIdDropdown"></select>
+          </div>
+          <div class="selection-item">
+            <h3>Frame ID:</h3>
+            <select id="frameIdDropdown"></select>
+          </div>
+        </div>
+          
+          <div class="opacitySlider">
+            <h3>Video Frame Image Opacity:</h3>
+            <input type="range" id="opacitySlider" min="0" max="1" step="0.1" value="0.1">
+        </div>
+        <h3>Object Completion:</h3>
+        <div class="progress-bar-container">
+          <div class="progress-bar"></div>
+          <span class="progress-number">0%</span>
+        </div>
+        <h3>Image Completion:</h3>
+        <div class="progress-bar-container">
+          <div class="progress-bar-image"></div>
+          <span class="progress-number-image">0%</span>
+        </div>
+      </div>
+    </div>
+    <div id="maskContainer">
+      <div id='maskImages'>
+        <h3>Mask</h3>
+        <div id="mseScores"></div>
+      </div>
+    </div>
+    <div id="mseScoreContainer">
+    </div>
+    <div id="singlecontrols">
+      <div id="rotation" class="slider-group">
+        <h3>Rotation</h3>
+        <div>
+          <label for="rotateXSlider">X:</label>
+          <div class="quick-buttons">
+            <button class="quick-rotate-x red" data-value="-1">-1°</button>
+            <button class="quick-rotate-x red" data-value="-5">-5°</button>
+            <button class="quick-rotate-x red" data-value="-20">-20°</button>
+            <button class="quick-rotate-x red" data-value="-50">-50°</button>
+            <button class="quick-rotate-x red" data-value="-90">-90°</button>
+          </div>
+          <input type="number" id="rotateXValue" min="-180" max="180" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-rotate-x red" data-value="1">1°</button>
+            <button class="quick-rotate-x red" data-value="5">5°</button>
+            <button class="quick-rotate-x red" data-value="20">20°</button>
+            <button class="quick-rotate-x red" data-value="50">50°</button>
+            <button class="quick-rotate-x red" data-value="90">90°</button>
+          </div>
+        </div>
+        <!-- Similar changes for Y and Z rotation -->
+        <div>
+          <label for="rotateYSlider">Y:</label>
+          <div class="quick-buttons">
+            <button class="quick-rotate-y green" data-value="-1">-1°</button>
+            <button class="quick-rotate-y green" data-value="-5">-5°</button>
+            <button class="quick-rotate-y green" data-value="-20">-20°</button>
+            <button class="quick-rotate-y green" data-value="-50">-50°</button>
+            <button class="quick-rotate-y green" data-value="-90">-90°</button>
+          </div>
+          <input type="number" id="rotateYValue" min="-180" max="180" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-rotate-y green" data-value="1">1°</button>
+            <button class="quick-rotate-y green" data-value="5">5°</button>
+            <button class="quick-rotate-y green" data-value="20">20°</button>
+            <button class="quick-rotate-y green" data-value="50">50°</button>
+            <button class="quick-rotate-y green" data-value="90">90°</button>
+          </div>
+        </div>
+        <div>
+          <label for="rotateZSlider">Z:</label>
+          <div class="quick-buttons">
+            <button class="quick-rotate-z blue" data-value="-1">-1°</button>
+            <button class="quick-rotate-z blue" data-value="-5">-5°</button>
+            <button class="quick-rotate-z blue" data-value="-20">-20°</button>
+            <button class="quick-rotate-z blue" data-value="-50">-50°</button>
+            <button class="quick-rotate-z blue" data-value="-90">-90°</button>
+          </div>
+          <input type="number" id="rotateZValue" min="-180" max="180" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-rotate-z blue" data-value="1">1°</button>
+            <button class="quick-rotate-z blue" data-value="5">5°</button>
+            <button class="quick-rotate-z blue" data-value="20">20°</button>
+            <button class="quick-rotate-z blue" data-value="50">50°</button>
+            <button class="quick-rotate-z blue" data-value="90">90°</button>
+          </div>
+        </div>
+      </div>
+      <div id="translation" class="slider-group">
+        <h3>Translation</h3>
+        <div>
+          <label for="translateXSlider">X:</label>
+          <div class="quick-buttons">
+            <button class="quick-translate-x red" data-value="-1">-1</button>
+            <button class="quick-translate-x red" data-value="-5">-5</button>
+            <button class="quick-translate-x red" data-value="-10">-10</button>
+            <button class="quick-translate-x red" data-value="-20">-20</button>
+            <button class="quick-translate-x red" data-value="-50">-50</button>
+          </div>
+          <input type="number" id="translateXValue" min="-100" max="100" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-translate-x red" data-value="1">1</button>
+            <button class="quick-translate-x red" data-value="5">5</button>
+            <button class="quick-translate-x red" data-value="10">10</button>
+            <button class="quick-translate-x red" data-value="20">20</button>
+            <button class="quick-translate-x red" data-value="50">50</button>
+          </div>
+        </div>
+        <!-- Similar changes for Y and Z translation -->
+        <div>
+          <label for="translateYSlider">Y:</label>
+          <div class="quick-buttons">
+            <button class="quick-translate-y green" data-value="-1">-1</button>
+            <button class="quick-translate-y green" data-value="-5">-5</button>
+            <button class="quick-translate-y green" data-value="-10">-10</button>
+            <button class="quick-translate-y green" data-value="-20">-20</button>
+            <button class="quick-translate-y green" data-value="-50">-50</button>
+          </div>
+          <input type="number" id="translateYValue" min="-100" max="100" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-translate-y green" data-value="1">1</button>
+            <button class="quick-translate-y green" data-value="5">5</button>
+            <button class="quick-translate-y green" data-value="10">10</button>
+            <button class="quick-translate-y green" data-value="20">20</button>
+            <button class="quick-translate-y green" data-value="50">50</button>
+          </div>
+        </div>
+        <div>
+          <label for="translateZSlider">Z:</label>
+          <div class="quick-buttons">
+            <button class="quick-translate-z blue" data-value="-1">-1</button>
+            <button class="quick-translate-z blue" data-value="-5">-5</button>
+            <button class="quick-translate-z blue" data-value="-10">-10</button>
+            <button class="quick-translate-z blue" data-value="-20">-20</button>
+            <button class="quick-translate-z blue" data-value="-50">-50</button>
+          </div>
+          <input type="number" id="translateZValue" min="-100" max="100" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-translate-z blue" data-value="1">1</button>
+            <button class="quick-translate-z blue" data-value="5">5</button>
+            <button class="quick-translate-z blue" data-value="10">10</button>
+            <button class="quick-translate-z blue" data-value="20">20</button>
+            <button class="quick-translate-z blue" data-value="50">50</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="allcontrols">
+      <div id="rotateAll" class="slider-group">
+        <h3>Rotate All Objects</h3>
+        <div>
+          <label for="rotateXAllSlider">X:</label>
+          <div class="quick-buttons">
+            <button class="quick-rotate-all-x red" data-value="-1">-1°</button>
+            <button class="quick-rotate-all-x red" data-value="-5">-5°</button>
+            <button class="quick-rotate-all-x red" data-value="-10">-10°</button>
+            <button class="quick-rotate-all-x red" data-value="-20">-20°</button>
+            <button class="quick-rotate-all-x red" data-value="-50">-50°</button>
+          </div>
+          <input type="number" id="rotateXAllValue" min="-100" max="100" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-rotate-all-x red" data-value="1">1°</button>
+            <button class="quick-rotate-all-x red" data-value="5">5°</button>
+            <button class="quick-rotate-all-x red" data-value="10">10°</button>
+            <button class="quick-rotate-all-x red" data-value="20">20°</button>
+            <button class="quick-rotate-all-x red" data-value="50">50°</button>
+          </div>
+        </div>
+        <!-- Similar changes for Y and Z rotation -->
+        <div>
+          <label for="rotateYAllSlider">Y:</label>
+          <div class="quick-buttons">
+            <button class="quick-rotate-all-y green" data-value="-1">-1°</button>
+            <button class="quick-rotate-all-y green" data-value="-5">-5°</button>
+            <button class="quick-rotate-all-y green" data-value="-10">-10°</button>
+            <button class="quick-rotate-all-y green" data-value="-20">-20°</button>
+            <button class="quick-rotate-all-y green" data-value="-50">-50°</button>
+          </div>
+          <input type="number" id="rotateYAllValue" min="-100" max="100" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-rotate-all-y green" data-value="1">1°</button>
+            <button class="quick-rotate-all-y green" data-value="5">5°</button>
+            <button class="quick-rotate-all-y green" data-value="10">10°</button>
+            <button class="quick-rotate-all-y green" data-value="20">20°</button>
+            <button class="quick-rotate-all-y green" data-value="50">50°</button>
+          </div>
+        </div>
+        <div>
+          <label for="rotateZAllSlider">Z:</label>
+          <div class="quick-buttons">
+            <button class="quick-rotate-all-z blue" data-value="-1">-1°</button>
+            <button class="quick-rotate-all-z blue" data-value="-5">-5°</button>
+            <button class="quick-rotate-all-z blue" data-value="-10">-10°</button>
+            <button class="quick-rotate-all-z blue" data-value="-20">-20°</button>
+            <button class="quick-rotate-all-z blue" data-value="-50">-50°</button>
+          </div>
+          <input type="number" id="rotateZAllValue" min="-100" max="100" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-rotate-all-z blue" data-value="1">1°</button>
+            <button class="quick-rotate-all-z blue" data-value="5">5°</button>
+            <button class="quick-rotate-all-z blue" data-value="10">10°</button>
+            <button class="quick-rotate-all-z blue" data-value="20">20°</button>
+            <button class="quick-rotate-all-z blue" data-value="50">50°</button>
+          </div>
+        </div>
+      </div>
+      <div id="translationAll" class="slider-group">
+        <h3>Translate All Objects</h3>
+        <div>
+          <label for="translateXAllSlider">X:</label>
+          <div class="quick-buttons">
+            <button class="quick-translate-all-x red" data-value="-1">-1</button>
+            <button class="quick-translate-all-x red" data-value="-5">-5</button>
+            <button class="quick-translate-all-x red" data-value="-10">-10</button>
+            <button class="quick-translate-all-x red" data-value="-20">-20</button>
+            <button class="quick-translate-all-x red" data-value="-50">-50</button>
+          </div>
+          <input type="number" id="translateXAllValue" min="-100" max="100" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-translate-all-x red" data-value="1">1</button>
+            <button class="quick-translate-all-x red" data-value="5">5</button>
+            <button class="quick-translate-all-x red" data-value="10">10</button>
+            <button class="quick-translate-all-x red" data-value="20">20</button>
+            <button class="quick-translate-all-x red" data-value="50">50</button>
+          </div>
+        </div>
+        <!-- Similar changes for Y and Z translation -->
+        <div>
+          <label for="translateYAllSlider">Y:</label>
+          <div class="quick-buttons">
+            <button class="quick-translate-all-y green" data-value="-1">-1</button>
+            <button class="quick-translate-all-y green" data-value="-5">-5</button>
+            <button class="quick-translate-all-y green" data-value="-10">-10</button>
+            <button class="quick-translate-all-y green" data-value="-20">-20</button>
+            <button class="quick-translate-all-y green" data-value="-50">-50</button>
+          </div>
+          <input type="number" id="translateYAllValue" min="-100" max="100" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-translate-all-y green" data-value="1">1</button>
+            <button class="quick-translate-all-y green" data-value="5">5</button>
+            <button class="quick-translate-all-y green" data-value="10">10</button>
+            <button class="quick-translate-all-y green" data-value="20">20</button>
+            <button class="quick-translate-all-y green" data-value="50">50</button>
+          </div>
+        </div>
+        <div>
+          <label for="translateZAllSlider">Z:</label>
+          <div class="quick-buttons">
+            <button class="quick-translate-all-z blue" data-value="-1">-1</button>
+            <button class="quick-translate-all-z blue" data-value="-5">-5</button>
+            <button class="quick-translate-all-z blue" data-value="-10">-10</button>
+            <button class="quick-translate-all-z blue" data-value="-20">-20</button>
+            <button class="quick-translate-all-z blue" data-value="-50">-50</button>
+          </div>
+          <input type="number" id="translateZAllValue" min="-100" max="100" step="0.01" value="0">
+          <div class="quick-buttons">
+            <button class="quick-translate-all-z blue" data-value="1">1</button>
+            <button class="quick-translate-all-z blue" data-value="5">5</button>
+            <button class="quick-translate-all-z blue" data-value="10">10</button>
+            <button class="quick-translate-all-z blue" data-value="20">20</button>
+            <button class="quick-translate-all-z blue" data-value="50">50</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="progressContainer">
+      <textarea id="progressTextarea" rows="5" readonly></textarea>
+    </div>
+    <div id="ResetContainerAll">
+        <div id="reserContainer">
+          <label for="objectDropdown">Select Object:</label>
+          <select id="objectDropdown"></select>
+          <button id="resetCameraButton">Reset Camera</button>
+          <button id="displayAllCoordinatesButton">Display All Coordinates</button>
+    </div>
+      <div>
+        <button id="usePoseFromPrevFrameButton">Use Pose from Previous Frame</button>
+      </div>
+    </div>
+    <div id="saveContainerAll">
+      <div id="saveContainer">
+        <div id="saveControls">
+          <button id="resetPoseButton">Reset Initial Pose</button>
+          <button id="savePoseButton">Save Pose</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

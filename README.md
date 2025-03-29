@@ -83,6 +83,47 @@ The dataset supports various research directions:
 - 🎥 Video object segmentation
 - 🛠️ Shape assembly with instruction videos
 
+## 3D Pose Reannotation Interface
+
+This tool refines 3D object poses in video frames after initial pose estimation (e.g., via PnP). It allows users to make fine-tuned adjustments to object rotations and translations, visualize results in a 3D scene, and save refined poses.
+
+### Before Running
+
+Replace the following placeholders in `./annotation_tool/Pose-Reannotation-Interface-Release/server.py` and `./annotation_tool/Pose-Reannotation-Interface-Release/main.js` with your actual settings:
+
+#### In `server.py`
+- `OUTPUT_FOLDER = "OUTPUT_FOLDER_PLACEHOLDER"`: Output directory (e.g., `./output`).
+- `OBJ_FOLDER = "OBJ_FOLDER_PLACEHOLDER"`: Path to OBJ files (e.g., `/path/to/parts`).
+- `BASE_JSON_PATH = "BASE_JSON_PATH_PLACEHOLDER"`: Path to `data.json` (e.g., `./data.json`).
+- `VIDEO_FOLDER = "VIDEO_FOLDER_PLACEHOLDER"`: Path to video files (e.g., `/path/to/video`).
+- `BASE_PROGRESS_DATA_PATH = "BASE_PROGRESS_DATA_PATH_PLACEHOLDER"`: Path to user data (e.g., `/path/to/pose_reannotation_data/`).
+- `port = "PORT_PLACEHOLDER"`: Server port (e.g., `5000`).
+- `host = "HOST_PLACEHOLDER"`: Server host (e.g., `0.0.0.0`).
+
+#### In `main.js`
+- `const port = "PORT_PLACEHOLDER"`: Backend port (e.g., `5000`).
+- `const host = "HOST_PLACEHOLDER:${port}"`: Backend URL (e.g., `http://localhost:5000`).
+
+### How to Run
+Under folder ./annotation_tool/Pose-Reannotation-Interface-Release/
+
+1. **Install Dependencies**:
+   - Frontend: `npm install` (installs `three`, `vite`, etc.; `node_modules` not included).
+   - Backend: `pip install flask flask-cors trimesh numpy`.
+
+2. **Start Frontend**:
+   ```bash
+   cd ./annotation_tool/Pose-Reannotation-Interface-Release
+   npx vite --port 8000
+   ```
+  
+3. **Start Backend**:
+   ```bash
+   cd ./annotation_tool/Pose-Reannotation-Interface-Release
+   python server.py
+   ```
+
+
 ## License
 This dataset is released under the CC-BY-4.0 license.
 
