@@ -83,13 +83,13 @@ The dataset supports various research directions:
 - 🎥 Video object segmentation
 - 🛠️ Shape assembly with instruction videos
 
-## 3D Pose Reannotation Interface
+## 3D Pose Refine Interface
 
 This tool refines 3D object poses in video frames after initial pose estimation (e.g., via PnP). It allows users to make fine-tuned adjustments to object rotations and translations, visualize results in a 3D scene, and save refined poses.
 
 ### Before Running
 
-Replace the following placeholders in `./annotation_tool/Pose-Reannotation-Interface-Release/server.py` and `./annotation_tool/Pose-Reannotation-Interface-Release/main.js` with your actual settings:
+Replace the following placeholders in `./annotation_tool/Pose-Refine-Interface-Release/server.py` and `./annotation_tool/Pose-Refine-Interface-Release/main.js` with your actual settings:
 
 #### In `server.py`
 - `OUTPUT_FOLDER = "OUTPUT_FOLDER_PLACEHOLDER"`: Output directory (e.g., `./output`).
@@ -105,7 +105,7 @@ Replace the following placeholders in `./annotation_tool/Pose-Reannotation-Inter
 - `const host = "HOST_PLACEHOLDER:${port}"`: Backend URL (e.g., `http://localhost:5000`).
 
 ### How to Run
-Under folder ./annotation_tool/Pose-Reannotation-Interface-Release/
+Under folder ./annotation_tool/Pose-Refine-Interface-Release/
 
 1. **Install Dependencies**:
    - Frontend: `npm install` (installs `three`, `vite`, etc.; `node_modules` not included).
@@ -113,13 +113,13 @@ Under folder ./annotation_tool/Pose-Reannotation-Interface-Release/
 
 2. **Start Frontend**:
    ```bash
-   cd ./annotation_tool/Pose-Reannotation-Interface-Release
+   cd ./annotation_tool/Pose-Refine-Interface-Release
    npx vite --port 8000
    ```
   
 3. **Start Backend**:
    ```bash
-   cd ./annotation_tool/Pose-Reannotation-Interface-Release
+   cd ./annotation_tool/Pose-Refine-Interface-Release
    python server.py
    ```
 

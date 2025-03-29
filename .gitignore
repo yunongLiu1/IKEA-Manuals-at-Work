@@ -9,3 +9,8 @@ src/IKEAVideo/dataloader/assembly_video_old.py
 *.pyc
 src/IKEAVideo/dataloader/dataset_keyframe_old.py
 notebooks/data_viz_website.ipynb
+data/videos/*
+gifs/*
+annotation_tool/Pose-Refine-Interface-Release/node_modules/*
+annotation_tool/Pose-Refine-Interface-Release/data.json
+data/video.zip
