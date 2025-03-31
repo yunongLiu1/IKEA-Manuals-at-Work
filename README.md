@@ -105,6 +105,17 @@ Please see the respective directories for setup and usage instructions:
 ![Pose Refine Interface](./assets/pose_refine_interface.png)
 
 
+## FAQ
+
+### How do I project mesh vertices to 2D?
+You can use the provided `render_part.py` script (in this repo) to project mesh vertices onto 2D images. Ensure you have the correct intrinsic and extrinsic matrices.
+
+### Are segmentation masks and part poses available for all parts?
+No, annotations are provided only for parts being interacted with in each frame. This aligns with the manual’s structure and supports assembly plan generation.
+
+For more details, check the paper or feel free to ask!
+
+
 ## License
 This dataset is released under the CC-BY-4.0 license.
 
