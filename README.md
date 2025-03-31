@@ -83,45 +83,26 @@ The dataset supports various research directions:
 - 🎥 Video object segmentation
 - 🛠️ Shape assembly with instruction videos
 
-## 3D Pose Refine Interface
+## 4D IKEA Video Annotation Interface
 
-This tool refines 3D object poses in video frames after initial pose estimation (e.g., via PnP). It allows users to make fine-tuned adjustments to object rotations and translations, visualize results in a 3D scene, and save refined poses.
+We also provide the annotation tools used to create the [IKEA Manuals at Work](https://yunongliu1.github.io/ikea-video-manual/) dataset.
 
-### Before Running
 
-Replace the following placeholders in `./annotation_tool/Pose-Refine-Interface-Release/server.py` and `./annotation_tool/Pose-Refine-Interface-Release/main.js` with your actual settings:
+### Tools Included
 
-#### In `server.py`
-- `OUTPUT_FOLDER = "OUTPUT_FOLDER_PLACEHOLDER"`: Output directory (e.g., `./output`).
-- `OBJ_FOLDER = "OBJ_FOLDER_PLACEHOLDER"`: Path to OBJ files (e.g., `/path/to/parts`).
-- `BASE_JSON_PATH = "BASE_JSON_PATH_PLACEHOLDER"`: Path to `data.json` (e.g., `./data.json`).
-- `VIDEO_FOLDER = "VIDEO_FOLDER_PLACEHOLDER"`: Path to video files (e.g., `/path/to/video`).
-- `BASE_PROGRESS_DATA_PATH = "BASE_PROGRESS_DATA_PATH_PLACEHOLDER"`: Path to user data (e.g., `/path/to/pose_reannotation_data/`).
-- `port = "PORT_PLACEHOLDER"`: Server port (e.g., `5000`).
-- `host = "HOST_PLACEHOLDER"`: Server host (e.g., `0.0.0.0`).
+This repository contains two annotation interfaces:
 
-#### In `main.js`
-- `const port = "PORT_PLACEHOLDER"`: Backend port (e.g., `5000`).
-- `const host = "HOST_PLACEHOLDER:${port}"`: Backend URL (e.g., `http://localhost:5000`).
+1. **Main Annotation Interface** - For creating 2D masks and initial 3D poses
+2. **Pose Refinement Interface** - For fine-tuning 3D poses after initial estimation
 
-### How to Run
-Under folder ./annotation_tool/Pose-Refine-Interface-Release/
+Please see the respective directories for setup and usage instructions:
 
-1. **Install Dependencies**:
-   - Frontend: `npm install` (installs `three`, `vite`, etc.; `node_modules` not included).
-   - Backend: `pip install flask flask-cors trimesh numpy`.
+- [Main Annotation Interface](./annotation_tool/README.md)
+![Annotation Interface](./assets/annotation_interface.png)
 
-2. **Start Frontend**:
-   ```bash
-   cd ./annotation_tool/Pose-Refine-Interface-Release
-   npx vite --port 8000
-   ```
-  
-3. **Start Backend**:
-   ```bash
-   cd ./annotation_tool/Pose-Refine-Interface-Release
-   python server.py
-   ```
+
+- [Pose Refinement Interface](./annotation_tool/README.md)
+![Pose Refine Interface](./assets/pose_refine_interface.png)
 
 
 ## License

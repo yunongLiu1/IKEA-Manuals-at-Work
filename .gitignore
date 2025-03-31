@@ -14,3 +14,6 @@ gifs/*
 annotation_tool/Pose-Refine-Interface-Release/node_modules/*
 annotation_tool/Pose-Refine-Interface-Release/data.json
 data/video.zip
+annotation_tool/Annotation-Interface/node_modules/*
+annotation_tool/Annotation-Interface/backend/SAM/weights/sam_vit_h_4b8939.pth.2
+.gitignore

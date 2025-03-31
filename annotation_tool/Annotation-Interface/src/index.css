@@ -1,0 +1,68 @@
+/* force full-screen */
+html,
+body,
+#root {
+	height: 100%;
+}
+
+/* default, copied from tailwindcss */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: inherit;
+	font-weight: inherit;
+}
+
+ol,
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+	display: block;
+	/* vertical-align: middle; */
+}
+
+*,
+::before,
+::after {
+	border-width: 0;
+	border-style: solid;
+	/* border-color: theme("borderColor.DEFAULT", currentColor); */
+}
+
+.google-map * {
+	border-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
+
+
